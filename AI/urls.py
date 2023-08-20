@@ -3,5 +3,6 @@ from.views import *
 app_name='AI'
 
 urlpatterns=[
-    path('',home,name='home')
+    path('',home,name='home'),
+    path('get-videos/',get_videos),
 ]

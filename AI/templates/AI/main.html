@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,500&display=swap">
+    <style>
+        /* Global styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #000;
+            color: #fff;
+        }
+
+        /* Video styles */
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .video-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .video-container {
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            transition: transform 0.2s ease;
+        }
+
+        .video-container:hover {
+            transform: translateY(-5px);
+        }
+
+        .video-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin: 10px;
+            color: #ffffff;
+        }
+
+        .video-description {
+            font-size: 14px;
+            margin: 0 10px 10px;
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            border-radius: 4px 4px 0 0;
+        }
+        .back-button {
+            background-color: #FF0000;
+            border: none;
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s ease;
+        }
+
+        .back-button:hover {
+            background-color: #D80000;
+        }
+        .header {
+            background-color: #1a1a1a;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            overflow: hidden;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        .modal-content {
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            width: 80%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .modal-video {
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            position: relative;
+        }
+        .modal-video iframe {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+
+        .modal-button {
+            background-color: #FF0000;
+            border: none;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s ease;
+            margin-right: 20px;
+        }
+        .modal-button:hover {
+            background-color: #D80000;
+        }
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: transparent;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="/"><button class="back-button">← Back</button></a>
+    </div>
+    
+    <div class="content">
+        <h3>YouTube Videos</h3>
+        <div class="video-list" id="video-list">
+            <!-- Videos will be dynamically added here -->
+        </div>
+    </div>
+    <div class="modal" id="video-modal">
+        <div class="modal-content">
+            <button class="close-button" onclick="closeModal()">✕</button>
+            <div class="modal-video">
+                <iframe id="modal-iframe" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-button">Summarize</button>
+                <button class="modal-button">Generate Quiz</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Your JavaScript code here
+        // JSON data (replace with your actual API response)
+
+        
+
+        const videoListContainer = document.getElementById('video-list');
+        const modal = document.getElementById('video-modal');
+        const modalIframe = document.getElementById('modal-iframe');
+
+        const jsonData = {{ video_data|safe }};
+        // Function to display videos
+        function displayVideos(videos) {
+            videoListContainer.innerHTML = ''; // Clear previous content
+
+            videos.forEach(video => {
+                const videoContainer = document.createElement('div');
+                videoContainer.classList.add('video-container');
+
+                const videoThumbnail = document.createElement('img');
+                videoThumbnail.classList.add('video-thumbnail');
+                videoThumbnail.src = video.snippet.thumbnails.medium.url;
+                videoThumbnail.alt = 'Video Thumbnail';
+
+                const videoTitle = document.createElement('h4');
+                videoTitle.classList.add('video-title');
+                videoTitle.textContent = video.snippet.title;
+
+                videoContainer.appendChild(videoThumbnail);
+                videoContainer.appendChild(videoTitle);
+                videoContainer.addEventListener('click', () => openModal(video.id.videoId)); // Attach event listener
+                videoListContainer.appendChild(videoContainer);
+            });
+        }
+
+        // Call the function with your JSON data
+        function openModal(videoId) {
+            modalIframe.src = `https://www.youtube.com/embed/${videoId}`;
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            modalIframe.src = '';
+            modal.style.display = 'none';
+        }
+        displayVideos(jsonData.items);
+    </script>
+</body>
+</html>
