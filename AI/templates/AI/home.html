@@ -35,100 +35,7 @@
             color: #000000;
             background: #664AFF;
         }
-        .search-box
-        {
-            margin: 0px auto;
-            background-color: rgb(0, 0, 0);
-            position: fixed;
-            height: 60px;
-            width: 60px;
-            border-radius: 50%;
-            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0  #FF0000;
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-        .search-box.active
-        {
-            width: 350px;
-        }
-        .search-box input
-        {
-            width: 100%;
-            height: 100%;
-            border: none;
-            border-radius: 50px;
-            background: rgb(0, 0, 0);
-            outline: none;
-            padding: 0 60px 0 20px;
-            font-size: 18px;
-            opacity: 0;
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            color: #FF0000;
-        }
-        .search-box input.active
-        {
-            opacity: 1;
-        }
-        .search-box input::placeholder
-        {
-            color: #FF0000;
-        }
-        .search-box .search-icon
-        {
-            position: absolute;
-            right: 0px;
-            top: 50%;
-            transform: translateY(-50%);
-            height: 60px;
-            width: 60px;
-            background: rgb(0, 0, 0);
-            border-radius: 50%;
-            text-align: center;
-            line-height: 60px;
-            font-size: 22px;
-            color: #FF0000;
-            cursor: pointer;
-            z-index: 1;
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-        .search-box .search-icon.active
-        {
-            right: 5px;
-            height: 50px;
-            line-height: 50px;
-            width: 50px;
-            font-size: 20px;
-            background: #FF0000;
-            color: #fff;
-            transform: translateY(-50%) rotate(360deg);
-        }
-        .search-box .cancel-icon
-        {
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 25px;
-            color: #FF0000;
-            cursor: pointer;
-            transition: all 0.5s 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-            .search-box .cancel-icon.active
-        {
-            right: -40px;
-            transform: translateY(-50%) rotate(360deg);
-        }
-        .search-box .search-data
-        {
-            text-align: center;
-            padding-top: 7px;
-            color: #FF0000;
-            font-size: 18px;
-            word-wrap: break-word;
-        }
-            .search-box .search-data.active
-        {
-            display: none;
-        }
+        
         .content
         {
             overflow: hidden;
@@ -149,53 +56,7 @@
             font-weight: 400;
             font-size: 25px;
         }
-        .search 
-        {
-            padding: 20px;
-            margin-top: 100px;
-            height: 60px;
-            background-color: rgb(0, 0, 0);
-            width: 60px;
-            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-
-            
-        }
-        .search.active
-        {
-            width: 450px;
-        }
-        @media only screen and (max-width: 768px)
-        {
-           .content,.head
-            {
-                
-                margin: none;
-                
-                width: 100%;
-
-            }
-            .search
-            {
-                align-content: center;
-                
-                margin-left: 0px;
-                width: 60px;
-            }
-            .search.active
-            {
-                width: 84%;
-            }
-            .search-box.active
-            {
-                width: 65%;
-            }
-            body
-            {
-                background-image: url('startMobile.jpg');
-            }
-            
-        }
+        
         @media only screen and (max-height: 600px)
         {
             .head h1
@@ -212,7 +73,7 @@
                 font-size: 18px;
                 
             }
-            .search
+            .search-input
             {
                 margin-top: 10px;
                 position: relative;
@@ -240,7 +101,67 @@
   }
 }
 
+.search-form {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 50px;
+        }
 
+        .search-input {
+            border: none;
+            border-bottom: 2px solid #FF0000;
+            background: transparent;
+            color: #FF0000;
+            font-size: 18px;
+            padding: 10px;
+            width: 300px;
+            outline: none;
+            width: 100%; /* Take full width on small screens */
+            max-width: 300px; /* Limit width for larger screens */
+            margin-bottom: 10px; /* Add some space between input and button */
+        
+        }
+        .search-input::placeholder {
+            color: #FF0000;
+        }
+
+        .search-button {
+            background-color: #FF0000;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%; /* Take full width on small screens */
+            max-width: 300px; /* Limit width for larger screens */
+        }
+
+        .search-button:hover {
+            background-color: #b30000;
+        }
+        @media only screen and (max-width: 768px) {
+            /* Adjust styles for smaller screens */
+            .content, .head {
+                margin: none;
+                width: 100%;
+            }
+
+            .search.active {
+                width: 90%; /* Adjust width for small screens */
+            }
+
+            .search-box.active {
+                width: 90%; /* Adjust width for small screens */
+            }
+
+            .search-input, .search-button {
+                max-width: 100%; /* Take full width on small screens */
+            }
+        }
   
 
 
@@ -253,84 +174,14 @@
             <h3>Minus Distractions</h3>
             <h3>Plus AI-Powered Quizzing!</h3>
           </div>
-        <div class="search">
-        <div class="search-box">
-            
-            <input type="text" placeholder="Search here" name = "search" id = "search">
-            
-            <div class="search-icon" id="search-icon">
-              <i class="fas fa-search"></i>
-            </div>
-        
-      <div class="cancel-icon">
-              <i class="fas fa-times"></i>
-            </div>
-      <div class="search-data">
-      </div>
-      </div>
-      </div>
-    
-    <script>
-      const searchBox = document.querySelector(".search-box");
-      const searchBtn = document.querySelector(".search-icon");
-      const cancelBtn = document.querySelector(".cancel-icon");
-      const searchInput = document.querySelector("input");
-      const searchData = document.querySelector(".search-data");
-      const searchDiv = document.querySelector(".search");
-      searchBtn.onclick =()=>{
+
+          <form action="" method="post" class="search-form">
+            {% csrf_token %}
+            <input type="text" placeholder="" name="query" class="search-input">
+            <button type="submit" class="search-button">Search</button>
+        </form>
           
-        searchBox.classList.add("active");
-        searchBtn.classList.add("active");
-        searchInput.classList.add("active");
-        cancelBtn.classList.add("active");
-        searchDiv.classList.add("active");
-        searchInput.focus();
-        if(searchInput.value != ""){
-          search(searchInput.value);
-        }
-      }
-      cancelBtn.onclick =()=>{
-        searchBox.classList.remove("active");
-        searchBtn.classList.remove("active");
-        searchInput.classList.remove("active");
-        cancelBtn.classList.remove("active");
-        searchData.classList.toggle("active");
-        searchDiv.classList.remove("active");
-        searchInput.value = "";
-      }
-      function search(query) {
-          var arr = query.split(" ");
-          var newQuery = "";
-          for (let i = 0; i < arr.length; i++) {
-              const element = arr[i];
-              if (i == (arr.length -1)) {
-                  newQuery +=  arr[i];
-              } else {
-                  newQuery += arr[i] + "+";
-              }
-              
-              
-          }
-          var url = "https://www.youtube.com/results?search_query="
-          url += newQuery;
-          window.location.href = url;
-          searchInput.value = "";
-        
-      }
-
-           
-        var input = document.getElementById("search");
-
-        
-        input.addEventListener("keyup", function(event) {
-        
-        if (event.keyCode === 13) {
-            // Cancel the default action, if needed
-            event.preventDefault();
-            // Trigger the button element with a click
-            searchBtn.click();
-  }
-});
-    </script>
+    
+  
 </body>
 </html>
