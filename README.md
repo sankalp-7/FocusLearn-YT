@@ -57,12 +57,25 @@ This project is licensed under the [MIT License](LICENSE).
 ![image](https://github.com/sankalp-7/FocusLearn-YT/assets/104098061/6f461b69-1e05-461e-bd13-8354f2726cf6)
 
 # QUIZ PAGE
-
+## Q1
 ![image](https://github.com/sankalp-7/FocusLearn-YT/assets/104098061/2471462f-da7f-4eef-b6e0-b2e893c5befa)
+## Q2
+![image](https://github.com/sankalp-7/FocusLearn-YT/assets/104098061/40f9b289-634d-4747-8d24-cbd5427f65a6)
+## Q3
+![image](https://github.com/sankalp-7/FocusLearn-YT/assets/104098061/495ed28c-7747-42cb-9567-4667dcc080b7)
+And 7 more questions are generated for user to answer...
 
 # QUIZ REVIEW PAGE
 
-![image](https://github.com/sankalp-7/FocusLearn-YT/assets/104098061/f53868fc-2139-4ce3-ac62-02f8ffb854f4)
+![image](https://github.com/sankalp-7/FocusLearn-YT/assets/104098061/a897de84-f3b7-44c0-96e7-e6495ab9e00b)
+
+![image](https://github.com/sankalp-7/FocusLearn-YT/assets/104098061/20f3b04a-9a8f-46ad-8150-b776a15b439b)
+
+![image](https://github.com/sankalp-7/FocusLearn-YT/assets/104098061/721b026f-b36c-4158-b7cd-8bd690718ed3)
+
+![image](https://github.com/sankalp-7/FocusLearn-YT/assets/104098061/4ac68909-bdce-409c-906a-e43eb3b52301)
+
+
 
 
 
