@@ -38,28 +38,28 @@ To start using Focus Learn YT, follow these steps:
 
 This project is licensed under the [MIT License](LICENSE).
 
-## Images
-HOME PAGE
+## Images 
+# HOME PAGE
 
 ![image](https://github.com/sankalp-7/FocusLearn-YT/assets/104098061/24f2a3a9-5969-4e0c-abea-4e018bf086c7)
 
-VIDEOS PAGE
+# VIDEOS PAGE
 
 ![image](https://github.com/sankalp-7/FocusLearn-YT/assets/104098061/ec72db36-3d3a-4b9b-b01b-2e78d1963883)
 
-SUMMARY,QUIZ MODAL
+# SUMMARY,QUIZ MODAL
 
 ![image](https://github.com/sankalp-7/FocusLearn-YT/assets/104098061/b49a8413-3535-411c-86ef-20774a75a34f)
 
-SUMMARY PAGE
+# SUMMARY PAGE
 
 ![image](https://github.com/sankalp-7/FocusLearn-YT/assets/104098061/6f461b69-1e05-461e-bd13-8354f2726cf6)
 
-QUIZ PAGE
+# QUIZ PAGE
 
 ![image](https://github.com/sankalp-7/FocusLearn-YT/assets/104098061/2471462f-da7f-4eef-b6e0-b2e893c5befa)
 
-QUIZ REVIEW PAGE
+# QUIZ REVIEW PAGE
 
 ![image](https://github.com/sankalp-7/FocusLearn-YT/assets/104098061/f53868fc-2139-4ce3-ac62-02f8ffb854f4)
 
