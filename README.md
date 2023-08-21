@@ -41,7 +41,8 @@ This project is licensed under the [MIT License](LICENSE).
 ## Images 
 # HOME PAGE
 
-![image](https://github.com/sankalp-7/FocusLearn-YT/assets/104098061/24f2a3a9-5969-4e0c-abea-4e018bf086c7)
+![image](https://github.com/sankalp-7/FocusLearn-YT/assets/104098061/87ee2608-5d3f-429f-9b14-f27e3add0f77)
+
 
 # VIDEOS PAGE
 
