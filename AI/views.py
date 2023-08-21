@@ -76,7 +76,7 @@ def summarize_view(request):
         max_chunk_size = 4000
         transcript_chunks = split_text_into_chunks(transcript_text, max_chunk_size)
         summaries = ""
-        openai.api_key = "//"
+        openai.api_key = "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"
         try:
             for chunk in transcript_chunks:
                 response = openai.ChatCompletion.create(
@@ -127,7 +127,7 @@ def quiz_view(request):
 }
 give result directly.'''
         try:
-            openai.api_key = "//"
+            openai.api_key = "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"
             response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo-16k",
             messages=[
