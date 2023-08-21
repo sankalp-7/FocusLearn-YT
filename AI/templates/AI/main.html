@@ -144,6 +144,10 @@
             cursor: pointer;
             font-size: 16px;
         }
+        .queryy{
+            color: #FF0000;
+            display: inline;
+        }
     </style>
 </head>
 <body>
@@ -152,7 +156,7 @@
     </div>
     
     <div class="content">
-        <h3>YouTube Videos</h3>
+        <h3>Results For <p class="queryy">{{q}}...</p></h3>
         <div class="video-list" id="video-list">
             <!-- Videos will be dynamically added here -->
         </div>
@@ -164,8 +168,8 @@
                 <iframe id="modal-iframe" frameborder="0" allowfullscreen></iframe>
             </div>
             <div class="modal-buttons">
-                <button class="modal-button">Summarize</button>
-                <button class="modal-button">Generate Quiz</button>
+                <!-- <button class="modal-button" onclick="summarizeVideo('{{src}}')">Summarize</button> -->
+                <!-- <button class="modal-button">Generate Quiz</button> -->
             </div>
         </div>
     </div>
@@ -197,8 +201,11 @@
                 videoTitle.classList.add('video-title');
                 videoTitle.textContent = video.snippet.title;
 
+    
+
                 videoContainer.appendChild(videoThumbnail);
                 videoContainer.appendChild(videoTitle);
+                
                 videoContainer.addEventListener('click', () => openModal(video.id.videoId)); // Attach event listener
                 videoListContainer.appendChild(videoContainer);
             });
@@ -206,13 +213,38 @@
 
         // Call the function with your JSON data
         function openModal(videoId) {
+            const modalButtons = document.querySelector('.modal-buttons');
+            modalButtons.innerHTML = ''; // Clear existing buttons
+            const summarizeButton = document.createElement('button');
+            summarizeButton.classList.add('modal-button');
+            summarizeButton.textContent = 'Summarize';
+            summarizeButton.addEventListener('click', () => summarizeVideo(videoId)); // Pass video ID
+            const quizButton = document.createElement('button');
+            quizButton.classList.add('modal-button');
+            quizButton.textContent = 'Genarate Quiz';
+            quizButton.addEventListener('click', () => quizVideo(videoId)); // Pass video ID
+            modalButtons.appendChild(summarizeButton);
+            modalButtons.appendChild(quizButton);
             modalIframe.src = `https://www.youtube.com/embed/${videoId}`;
             modal.style.display = 'flex';
+            
         }
 
         function closeModal() {
             modalIframe.src = '';
             modal.style.display = 'none';
+        }
+        function summarizeVideo(videoUrl) {
+            console.log("hello")
+            console.log(videoUrl)
+            const summarizeUrl = `/summarize-view/?url=${encodeURIComponent(videoUrl)}`;
+            window.location.href = summarizeUrl;
+        }
+        function quizVideo(videoUrl) {
+            console.log("hello")
+            console.log(videoUrl)
+            const quizUrl = `/quiz-view/?url=${encodeURIComponent(videoUrl)}`;
+            window.location.href = quizUrl;
         }
         displayVideos(jsonData.items);
     </script>
