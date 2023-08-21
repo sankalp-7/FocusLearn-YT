@@ -12,11 +12,22 @@ from transformers import pipeline
 import urllib.request
 import json
 import urllib
+import redis
+from focus_yt.settings import redis_connection
 import pprint
+
 # Create your views here.
 
 api_key="AIzaSyCRzrt-0rHNQ4DzybpAeWSO_q7SyDR2OJo"
 youtube=build('youtube','v3',developerKey=api_key)
+
+def get_cached_transcript(video_id):
+    cached_transcript = redis_connection.get(f'transcript:{video_id}')
+    return cached_transcript
+def cache_transcript(video_id, transcript_text):
+    redis_connection.set(f'transcript:{video_id}', transcript_text)
+
+
 def home(request):
     return render(request,'AI/home.html')
 
@@ -48,36 +59,39 @@ def summarize_view(request):
             video_id = match.group(1)
         else:
             raise ValueError("Invalid YouTube URL")
+        cached_transcript = get_cached_transcript(video_id)
+        if cached_transcript:
+            transcript_text = cached_transcript
+            print("data coming from redis")
+        else:
+            transcript = YouTubeTranscriptApi.get_transcript(video_id)
 
-        transcript = YouTubeTranscriptApi.get_transcript(video_id)
+            transcript_text = ""
+            for segment in transcript:
+                transcript_text += segment["text"] + " "
+            cache_transcript(video_id, transcript_text)
 
-        transcript_text = ""
-        for segment in transcript:
-            transcript_text += segment["text"] + " "
         def split_text_into_chunks(text, max_chunk_size):
             return textwrap.wrap(text, max_chunk_size)
         max_chunk_size = 4000
-
         transcript_chunks = split_text_into_chunks(transcript_text, max_chunk_size)
         summaries = ""
         openai.api_key = "//"
-        for chunk in transcript_chunks:
-            response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo-16k",
-            messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": f"{chunk}\n\nCreate short concise summary"}
-            ],
-            max_tokens=250,
-            temperature=0.5
-        )
-
-        summaries += response['choices'][0]['message']['content'].strip() + " "
-        print(summaries)
-
-        # Render your template with the summary
-        return render(request, 'AI/summary.html', {'summary': summaries,'title_yt':req_title})
-
+        try:
+            for chunk in transcript_chunks:
+                response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo-16k",
+                messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": f"{chunk}\n\nCreate short concise summary"}
+                ],
+                max_tokens=250,
+                temperature=0.5
+            )
+            summaries += response['choices'][0]['message']['content'].strip() + " "
+            return render(request, 'AI/summary.html', {'summary': summaries,'title_yt':req_title})
+        except Exception as e:
+            return JsonResponse({'error':e})
     return JsonResponse({'error': 'Invalid request.'})
 
 
@@ -90,11 +104,17 @@ def quiz_view(request):
             video_id = match.group(1)
         else:
             raise ValueError("Invalid YouTube URL")
-
-        transcript = YouTubeTranscriptApi.get_transcript(video_id)
-        transcript_text = ""
-        for segment in transcript:
-            transcript_text += segment["text"] + " "
+        cached_transcript = get_cached_transcript(video_id)
+        if cached_transcript:
+            transcript_text = cached_transcript
+            print("quiz generating after redis cache stores yt transcript")
+        else:
+            print("not coming from here")
+            transcript = YouTubeTranscriptApi.get_transcript(video_id)
+            transcript_text = ""
+            for segment in transcript:
+                transcript_text += segment["text"] + " "
+            cache_transcript(video_id, transcript_text)
         prompt='''Generate 10 quiz questions based on the text with multiple choices.create them in json format like:
 {
  "questions":[
@@ -106,20 +126,23 @@ def quiz_view(request):
 	]
 }
 give result directly.'''
-        openai.api_key = "//"
-        response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo-16k",
-        messages=[
-        {"role": "system", "content": "You are a helpful assistant that generates questions."},
-        {"role": "user", "content": transcript_text},
-        {"role": "user", "content": prompt}
-        ]
-        )
-        quiz_questions = response['choices'][0]['message']['content']
-        print("Quiz Questions:")
-        print(quiz_questions)
-        if type(quiz_questions)==list:
-            quiz_questions=quiz_questions[0]
-        return render(request,'AI/quiz.html',{'quiz_q':quiz_questions,'back':video_url})
+        try:
+            openai.api_key = "//"
+            response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo-16k",
+            messages=[
+            {"role": "system", "content": "You are a helpful assistant that generates questions."},
+            {"role": "user", "content": transcript_text},
+            {"role": "user", "content": prompt}
+            ]
+            )
+            quiz_questions = response['choices'][0]['message']['content']
+            print("Quiz Questions:")
+            print(quiz_questions)
+            if type(quiz_questions)==list:
+                quiz_questions=quiz_questions[0]
+            return render(request,'AI/quiz.html',{'quiz_q':quiz_questions,'back':video_url})
+        except:
+            return JsonResponse({'error': 'Chatgpt error.Chatgpt May Be Down'})
     return JsonResponse({'error': 'Invalid request.'})
 
