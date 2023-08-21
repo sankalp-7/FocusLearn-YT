@@ -15,19 +15,19 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      color: #fff; /* Text color */
+      color: #fff;
     }
 
     /* Black-Red Theme */
     .quiz-container,
     .review-container {
       max-width: 600px;
-      width: 80%;
+      width: 90%; /* Increased width */
       padding: 20px;
       border-radius: 8px;
       box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-      background-color: #333; /* Darker background color */
-      color: #fff; /* Text color */
+      background-color: #333;
+      color: #fff;
       margin-top: 20px;
       margin-bottom: 20px;
     }
@@ -35,16 +35,19 @@
     .submit-btn {
       margin-top: 15px;
       padding: 8px 16px;
-      background-color: #d9534f; /* Red color for submit button */
+      background-color: #d9534f;
       color: #fff;
       border: none;
       border-radius: 4px;
       cursor: pointer;
     }
+
     .choices {
-    display: flex;
-    flex-direction: column; /* Display options vertically */
-  }
+      display: flex;
+      flex-direction: column;
+      margin-top: 10px; /* Added margin between options */
+    }
+
     /* Red text color for correct and incorrect answers */
     .correct-answer {
       color: #5cb85c;
@@ -62,9 +65,33 @@
       border-radius: 8px;
       box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
     }
+
+    .back-button {
+      background-color: #FF0000;
+      border: none;
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.2s ease;
+    }
+
+    .back-button:hover {
+      background-color: #D80000;
+    }
+
+    .header {
+      background-color: #1a1a1a;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
   </style>
 </head>
 <body>
+cd
   <div class="quiz-container">
     <div id="question-container"></div>
     <button id="submit-btn" class="submit-btn">Submit</button>
@@ -74,6 +101,7 @@
 
   <script>
     const quizData =JSON.parse('{{ quiz_q|escapejs }}');
+
 
 
     const questionContainer = document.getElementById('question-container');
@@ -96,11 +124,11 @@ function showQuestion(questionIndex) {
     `<label class="choice">
       <input type="radio" id="choice-${questionIndex}-${index}" name="choice" value="${choice}">
       ${choice}
-    </label>`
+    </label><br>`
   ).join('');
 
   questionContainer.innerHTML = `
-    <div class="question">${questionData.question}</div>
+    <div class="question"><b style="color:#d9534f;">${questionData.question}</b><br><br></div>
     <div class="choices">
       ${choicesHTML}
     </div>
@@ -115,9 +143,12 @@ function showReview() {
     const selectedChoice = selectedAnswers[i]; // Get the selected answer from the array
     const userChoice = selectedChoice !== undefined ? selectedChoice : 'Not answered';
     const userAnswer = userChoice === questionData.correct_choice ? 'correct-answer' : 'incorrect-answer';
+    const reviewIcon = userChoice === questionData.correct_choice ? '<span class="correct-icon">✔</span>' : '<span class="correct-icon">✘</span>';
+        
     
     reviewHTML += `
       <div class="review-question ${userAnswer}">
+        ${reviewIcon}
         <p><strong>Question ${i + 1}:</strong> ${questionData.question}</p>
         <p>Your Answer: ${userChoice}</p>
         <p class="correct-answer">Correct Answer: ${questionData.correct_choice}</p>

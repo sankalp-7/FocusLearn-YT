@@ -9,6 +9,10 @@ import torchaudio
 import openai
 import textwrap
 from transformers import pipeline
+import urllib.request
+import json
+import urllib
+import pprint
 # Create your views here.
 
 api_key="AIzaSyCRzrt-0rHNQ4DzybpAeWSO_q7SyDR2OJo"
@@ -19,13 +23,23 @@ def home(request):
 def get_videos(request):
     if request.method=='POST':
         yt_query=request.POST['query']
-        req=youtube.search().list(q=yt_query,part='snippet',type='video')
+        req=youtube.search().list(q=yt_query,part='snippet',type='video',maxResults=50)
         res=req.execute()
         return render(request, 'AI/main.html', {'video_data': res,'q':yt_query})
     return render(request,'AI/main.html')
 
 def summarize_view(request):
     video_url = request.GET.get('url')
+    params = {"format": "json", "url": "https://www.youtube.com/watch?v=%s" % video_url}
+    url = "https://www.youtube.com/oembed"
+    query_string = urllib.parse.urlencode(params)
+    url = url + "?" + query_string
+    with urllib.request.urlopen(url) as response:
+        response_text = response.read()
+        data = json.loads(response_text.decode())
+        pprint.pprint(data)
+        req_title=data['title']
+        print(data['title'])
     if video_url:
         #summarization logic using the video_url
         youtube_url="https://www.youtube.com/watch?v="+video_url
@@ -62,7 +76,7 @@ def summarize_view(request):
         print(summaries)
 
         # Render your template with the summary
-        return render(request, 'AI/summary.html', {'summary': summaries})
+        return render(request, 'AI/summary.html', {'summary': summaries,'title_yt':req_title})
 
     return JsonResponse({'error': 'Invalid request.'})
 
@@ -81,18 +95,31 @@ def quiz_view(request):
         transcript_text = ""
         for segment in transcript:
             transcript_text += segment["text"] + " "
+        prompt='''Generate 10 quiz questions based on the text with multiple choices.create them in json format like:
+{
+ "questions":[
+	{
+	"question":"",
+	"choices":[ ],
+	"correct_choice":""
+	}
+	]
+}
+give result directly.'''
         openai.api_key = "//"
         response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo-16k",
         messages=[
         {"role": "system", "content": "You are a helpful assistant that generates questions."},
         {"role": "user", "content": transcript_text},
-        {"role": "user", "content": "Generate 10 quiz questions based on the text with multiple choices.Avoid questions which are too easy or are irrelevant.create them in json format.json fields should be question,choices,correct_choice(this field contains answer,not the option number).Give result directly"},
+        {"role": "user", "content": prompt}
         ]
         )
         quiz_questions = response['choices'][0]['message']['content']
         print("Quiz Questions:")
         print(quiz_questions)
-        return render(request,'AI/quiz.html',{'quiz_q':quiz_questions})
+        if type(quiz_questions)==list:
+            quiz_questions=quiz_questions[0]
+        return render(request,'AI/quiz.html',{'quiz_q':quiz_questions,'back':video_url})
     return JsonResponse({'error': 'Invalid request.'})
 

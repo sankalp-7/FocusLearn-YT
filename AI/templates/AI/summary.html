@@ -3,9 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet">
+    <title>Video Summary</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            color: red;
+            font-family: 'Roboto Condensed', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items:center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            max-width: 800px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .back-button {
+            display: inline-block;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            text-decoration: none;
+            color: red;
+            transition: transform 0.2s;
+        }
+
+        .back-button:hover {
+            transform: scale(1.1);
+        }
+
+        .summary {
+            font-size: 18px;
+            line-height: 1.6;
+            color: red; /* Added red color to summary */
+        }
+
+        .summary-title {
+            font-size: 24px;
+            margin-top: 0; /* Added margin-top to push the title up */
+        }
+
+        @media (prefers-color-scheme: light) {
+            body {
+                background-color: white;
+                color: black;
+            }
+        }
+    </style>
 </head>
 <body>
-    <p>{{summary}}</p>
+    <div class="container">
+        <a href="/get-videos" class="back-button">←</a>
+        <h3 class="summary-title" style="color: white;text-shadow: 2px 2px 5px red;">Summary for {{title_yt}}</h3>
+      
+        <p class="summary">{{summary}}</p>
+      </div>
 </body>
 </html>
