@@ -13,7 +13,6 @@ from transformers import pipeline
 
 api_key="AIzaSyCRzrt-0rHNQ4DzybpAeWSO_q7SyDR2OJo"
 youtube=build('youtube','v3',developerKey=api_key)
-openai.api_key = "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"
 def home(request):
     return render(request,'AI/home.html')
 
@@ -47,7 +46,7 @@ def summarize_view(request):
 
         transcript_chunks = split_text_into_chunks(transcript_text, max_chunk_size)
         summaries = ""
-
+        openai.api_key = "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"
         for chunk in transcript_chunks:
             response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo-16k",
@@ -80,17 +79,20 @@ def quiz_view(request):
 
         transcript = YouTubeTranscriptApi.get_transcript(video_id)
         transcript_text = ""
+        for segment in transcript:
+            transcript_text += segment["text"] + " "
+        openai.api_key = "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"
         response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo-16k",
         messages=[
         {"role": "system", "content": "You are a helpful assistant that generates questions."},
         {"role": "user", "content": transcript_text},
-        {"role": "user", "content": "Generate 10 quiz questions based on the text with multiple choices.Avoid questions which are too easy or are irrelevant.Avoid questions which require a picture to solve them.create them in json format"},
+        {"role": "user", "content": "Generate 10 quiz questions based on the text with multiple choices.Avoid questions which are too easy or are irrelevant.Avoid questions which require a picture to solve them.create them in json format.json fields should be question,choices,correct_choice(this field contains the actual answer).Give answer directly"},
         ]
         )
         quiz_questions = response['choices'][0]['message']['content']
         print("Quiz Questions:")
         print(quiz_questions)
-        return render(request,'AI/quiz.html',{'quiz':quiz_questions})
+        return render(request,'AI/quiz.html',{'quiz_q':quiz_questions})
     return JsonResponse({'error': 'Invalid request.'})
 

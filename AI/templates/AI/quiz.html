@@ -1,11 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1a1a1a;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #fff; /* Text color */
+    }
+
+    /* Black-Red Theme */
+    .quiz-container,
+    .review-container {
+      max-width: 600px;
+      width: 80%;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      background-color: #333; /* Darker background color */
+      color: #fff; /* Text color */
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .submit-btn {
+      margin-top: 15px;
+      padding: 8px 16px;
+      background-color: #d9534f; /* Red color for submit button */
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .choices {
+    display: flex;
+    flex-direction: column; /* Display options vertically */
+  }
+    /* Red text color for correct and incorrect answers */
+    .correct-answer {
+      color: #5cb85c;
+    }
+
+    .incorrect-answer {
+      color: #d9534f;
+    }
+
+    /* Darker border color for review questions */
+    .review-question {
+      margin-bottom: 20px;
+      padding: 15px;
+      border: 1px solid #444;
+      border-radius: 8px;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+  </style>
 </head>
 <body>
-    <h1>{{quiz}}</h1>
+  <div class="quiz-container">
+    <div id="question-container"></div>
+    <button id="submit-btn" class="submit-btn">Submit</button>
+  </div>
+
+  <div class="review-container" id="review-container" style="display: none;"></div>
+
+  <script>
+    const quizData =JSON.parse('{{ quiz_q|escapejs }}');
+
+
+    const questionContainer = document.getElementById('question-container');
+    const submitButton = document.getElementById('submit-btn');
+    const reviewContainer = document.getElementById('review-container');
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+   // ... (previous script) ...
+
+  // ... (previous script) ...
+
+// Create an array to store selected answers for each question
+const selectedAnswers = new Array(quizData.questions.length);
+
+function showQuestion(questionIndex) {
+  const questionData = quizData.questions[questionIndex];
+  const choicesHTML = questionData.choices.map((choice, index) =>
+    `<label class="choice">
+      <input type="radio" id="choice-${questionIndex}-${index}" name="choice" value="${choice}">
+      ${choice}
+    </label>`
+  ).join('');
+
+  questionContainer.innerHTML = `
+    <div class="question">${questionData.question}</div>
+    <div class="choices">
+      ${choicesHTML}
+    </div>
+  `;
+}
+
+function showReview() {
+  let reviewHTML = '<h2>Quiz Review</h2>';
+  
+  for (let i = 0; i < quizData.questions.length; i++) {
+    const questionData = quizData.questions[i];
+    const selectedChoice = selectedAnswers[i]; // Get the selected answer from the array
+    const userChoice = selectedChoice !== undefined ? selectedChoice : 'Not answered';
+    const userAnswer = userChoice === questionData.correct_choice ? 'correct-answer' : 'incorrect-answer';
+    
+    reviewHTML += `
+      <div class="review-question ${userAnswer}">
+        <p><strong>Question ${i + 1}:</strong> ${questionData.question}</p>
+        <p>Your Answer: ${userChoice}</p>
+        <p class="correct-answer">Correct Answer: ${questionData.correct_choice}</p>
+      </div>
+    `;
+  }
+  const score1= `<b><p style="text-align:center;">Your score: ${score} out of ${quizData.questions.length}</p></b>`;
+  const quizReviewContainer = document.querySelector('.quiz-container');
+    quizReviewContainer.innerHTML = `
+      <div class="question-container">
+        ${score1}
+      </div>
+    `;
+  reviewContainer.innerHTML = reviewHTML;
+  reviewContainer.style.display = 'block';
+}
+
+function checkAnswer() {
+  const selectedChoice = document.querySelector('input[name="choice"]:checked');
+  if (selectedChoice) {
+    const selectedValue = selectedChoice.value;
+    const correctChoice = quizData.questions[currentQuestionIndex].correct_choice;
+    if (selectedValue === correctChoice) {
+      score++;
+    }
+    selectedAnswers[currentQuestionIndex] = selectedValue; // Store the selected answer
+    currentQuestionIndex++;
+    if (currentQuestionIndex < quizData.questions.length) {
+      showQuestion(currentQuestionIndex);
+    } else {
+      questionContainer.style.display = 'none';
+      submitButton.style.display = 'none';
+      showReview();
+    }
+  }
+}
+
+showQuestion(currentQuestionIndex);
+
+submitButton.addEventListener('click', checkAnswer);
+
+
+ 
+
+
+  </script>
 </body>
 </html>
