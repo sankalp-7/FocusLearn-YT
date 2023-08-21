@@ -1,8 +1,7 @@
-# FocusLearn-YT
-# Focus Learn YT - Your Ultimate Educational Video Learning Platform
 
 ![image](https://github.com/sankalp-7/FocusLearn-YT/assets/104098061/2b7cf0d6-0ae3-46d7-b062-cd10fff78c5c)
 
+# Your Ultimate Educational Video Learning Platform
 
 Focus Learn YT is a web application designed to provide students with a distraction-free and educational video learning experience. It combines the features of a video platform with innovative tools such as video summarization and quiz generation. With Focus Learn YT, students can enhance their learning efficiency and test their knowledge after watching videos.
 
