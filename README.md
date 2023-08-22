@@ -41,11 +41,11 @@ To start using Focus Learn YT, follow these steps:
 
 1. Install Docker, Docker Compose
 
-2. Clone the repository -- git clone git@github.com:sankalp-7/FocusLearn-YT.git
+2. Clone the repository -- `git clone git@github.com:sankalp-7/FocusLearn-YT.git`
 
-3. cd focus_yt
+3. `cd focus_yt`
 
-4. docker-compose up --build
+4. `docker-compose up --build`
 
 5. open localhost:8000 to view the application
 
