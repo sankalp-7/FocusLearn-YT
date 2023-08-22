@@ -1,3 +1,4 @@
+![screen-capture](https://github.com/sankalp-7/FocusLearn-YT/assets/104098061/5aac950a-7218-4ed4-b968-53c77d4dc6e7)
 
 ![image](https://github.com/sankalp-7/FocusLearn-YT/assets/104098061/2b7cf0d6-0ae3-46d7-b062-cd10fff78c5c)
 
