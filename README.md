@@ -4,6 +4,10 @@
 
 
 
+
+https://github.com/sankalp-7/FocusLearn-YT/assets/104098061/9adf6c3c-0ac0-45eb-9922-93eebd312c20
+
+
 ![screen-capture](https://github.com/sankalp-7/FocusLearn-YT/assets/104098061/5aac950a-7218-4ed4-b968-53c77d4dc6e7)
 
 
