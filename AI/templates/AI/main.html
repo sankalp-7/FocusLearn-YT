@@ -174,8 +174,7 @@
         </div>
     </div>
     <script>
-        // Your JavaScript code here
-        // JSON data (replace with your actual API response)
+        
 
         
 
@@ -186,7 +185,7 @@
         const jsonData = {{ video_data|safe }};
         // Function to display videos
         function displayVideos(videos) {
-            videoListContainer.innerHTML = ''; // Clear previous content
+            videoListContainer.innerHTML = ''; 
 
             videos.forEach(video => {
                 const videoContainer = document.createElement('div');
@@ -211,10 +210,9 @@
             });
         }
 
-        // Call the function with your JSON data
         function openModal(videoId) {
             const modalButtons = document.querySelector('.modal-buttons');
-            modalButtons.innerHTML = ''; // Clear existing buttons
+            modalButtons.innerHTML = ''; 
             const summarizeButton = document.createElement('button');
             summarizeButton.classList.add('modal-button');
             summarizeButton.textContent = 'Summarize';
