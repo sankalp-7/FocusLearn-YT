@@ -32,7 +32,7 @@ To start using Focus Learn YT, follow these steps:
 
 5. Access the app in your web browser at `http://localhost:8000`
 
-## OR
+# OR
 
 1. Install Docker, Docker Compose
 
