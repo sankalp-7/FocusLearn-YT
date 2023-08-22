@@ -22,15 +22,17 @@ Focus Learn YT is a web application designed to provide students with a distract
 
 To start using Focus Learn YT, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/your-username/focus-learn-yt.git`
+1. Clone the repository: `git clone git@github.com:sankalp-7/FocusLearn-YT.git`
 
-2. Install dependencies: `pip install -r requirements.txt`
+2. Change directory to `cd focus_yt`
 
-3. Set up your openAI api and youtube api keys: `python manage.py migrate`
+3. Install dependencies: `pip install -r requirements.txt`
 
-4. Run the development server: `python manage.py runserver`
+4. Set up your openAI api and youtube api keys, then: `python manage.py migrate`
 
-5. Access the app in your web browser at `http://localhost:8000`
+5. Run the development server: `python manage.py runserver`
+
+6. Access the app in your web browser at `http://localhost:8000`
 
 *OR*
 
