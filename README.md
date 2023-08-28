@@ -1,5 +1,8 @@
-
 ![image](https://github.com/sankalp-7/FocusLearn-YT/assets/104098061/2b7cf0d6-0ae3-46d7-b062-cd10fff78c5c)
+
+# Live Demo
+
+https://github.com/sankalp-7/FocusLearn-YT/assets/104098061/9adf6c3c-0ac0-45eb-9922-93eebd312c20
 
 # Your Ultimate Educational Video Learning Platform
 
@@ -15,28 +18,38 @@ Focus Learn YT is a web application designed to provide students with a distract
 
 - **Responsive Design:** Enjoy a seamless learning experience across various devices, including desktops, tablets, and smartphones.
 
-
-
+ ## How It Works
+ - **Quiz Generation:** When a user clicks a video he has two other options than simply watching the video--He can generate a concise summary of the video by clicking the **summarize** button or generate a quiz based on the video's content by clicking the **generate quiz** button.
+ - The quiz is generated as follows--The youtube transcript is retrieved and then sent to chatgpt via api call along with a prompt to generate 10 quiz questions. The questions are then transformed to json format and is integrated at the frontend.
 ## Getting Started
 
 To start using Focus Learn YT, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/your-username/focus-learn-yt.git`
+1. Clone the repository: `git clone git@github.com:sankalp-7/FocusLearn-YT.git`
 
-2. Install dependencies: `pip install -r requirements.txt`
+2. Change directory to `cd focus_yt`
 
-3. Set up your openAI api and youtube api keys: `python manage.py migrate`
+3. Install dependencies: `pip install -r requirements.txt`
 
-4. Run the development server: `python manage.py runserver`
+4. Set up your openAI api and youtube api keys, then: `python manage.py migrate`
 
-5. Access the app in your web browser at `http://localhost:8000`
+5. Run the development server: `python manage.py runserver`
+
+6. Access the app in your web browser at `http://localhost:8000`
+
+*OR*
+
+1. Install Docker, Docker Compose
+
+2. Clone the repository -- `git clone git@github.com:sankalp-7/FocusLearn-YT.git`
+
+3. `cd focus_yt`
+
+4. `docker-compose up --build`
+
+5. open localhost:8000 to view the application
 
 
-
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
 
 ## Images 
 # HOME PAGE
