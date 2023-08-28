@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="google-site-verification" content="DpTe8ZusqVpP5PHUe3W7hzse56yvU05U-fxBlNb0txI" />	
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focus YT--Signup</title>
+        <style>
+        body {
+            background-color: #000000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Set the body height to the viewport height */
+            margin: 0; /* Reset default body margin */
+        }
+
+        .head {
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: 30px;
+            text-align: center;
+            padding-top: 20px; /* Add padding at the top */
+        }
+
+        .content {
+            overflow: hidden;
+            text-align: center;
+            background-color: rgb(0, 0, 0);
+            letter-spacing: 0.01em;
+            color: rgb(255, 255, 255);
+            width: 100%; /* Adjust width for responsiveness */
+            max-width: 400px; /* Limit maximum width for better readability */
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .content h3 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 400;
+            font-size: 25px;
+        }
+
+        .center-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1; /* Expand to take available space */
+        }
+
+        .signup-form {
+            width: 100%; /* Take full width */
+            max-width: 300px; /* Limit maximum width for better readability */
+        }
+
+        .form-group {
+            width: 100%; /* Ensure form fields take full width */
+        }
+
+        .signup-input {
+            border: none;
+            border-bottom: 2px solid #FF0000;
+            background: transparent;
+            color: #FF0000;
+            font-size: 18px;
+            padding: 10px;
+            width: 100%; /* Take full width */
+            outline: none;
+            margin-bottom: 15px;
+        }
+
+        .signup-button {
+            background-color: #FF0000;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%; /* Take full width */
+        }
+
+        .signup-button:hover {
+            background-color: #b30000;
+        }
+        .signup-input{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="head">
+        <h1>Settings Page</h1>
+    </div>
+    <div class="center-container">
+        <div class="content">
+            <div>
+                {% for m in messages %}
+                <style>
+                    h5{
+                        color: red;
+                    }
+                </style>
+                <h5>{{m}}</h5>
+            {% endfor %}
+            </div>
+            <h3>Give Coding Profile Links</h3>
+            <form action="" method="post" class="signup-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input type="text" placeholder="Leetcode Link" name="leetcode" class="signup-input">
+                </div>
+                <div class="form-group">
+                    <input type="text" placeholder="Github Link" name="github" class="signup-input">
+                </div>
+                <div class="form-group">
+                    <input type="text" placeholder="Codechef Link" name="codechef" class="signup-input">
+                </div>
+                <button type="submit" class="signup-button">Submit</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

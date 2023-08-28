@@ -165,10 +165,78 @@
         }
   
 
+/* Add this in the <style> tag in your <head> */
+    .header {
+        display: flex;
+    justify-content: flex-end;
+    align-items: center; /* Vertically center the profile button */
+    padding: 20px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.profile-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    color: #FF0000;
+}
+
+.dropdown-content {
+    display: none;
+    background-color: #333;
+    position: absolute;
+    background-color: #1F1F1F;
+    min-width: 100px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    bottom: -430%; /* Position above the button */
+    left: -210%;
+}
+/* Add this to your existing CSS */
+.dropdown-content.show {
+    display: block;
+
+}
+
+
+.dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 16px;
+}
+.dropdown-content a:hover {
+    background-color: #333;
+}
+
+
 
     </style>
 </head>
 <body>
+    <!-- Add this within the <body> tag, before the existing content -->
+<div class="header">
+    <div class="profile-dropdown">
+        <button class="profile-button">
+            <i class="fas fa-user-circle"></i>
+        </button>
+        <div class="dropdown-content">
+            <a href="/profile/">Profile</a>
+            <a href="/settings/">Settings</a>
+            <a href="/logout/">Logout</a>
+        </div>
+    </div>
+</div>
+
     <div class="head"><h1>FocusLearn <p style = "color:#FF0000;display: inline;">YT</h1></div>
         <div class="content">
             <h3>Same <strong>YouTube</strong>&nbsp;<img src="{% static 'images/yt.png' %}" style="width: 30px; vertical-align: middle;"></h3>
@@ -181,8 +249,24 @@
             <input type="text" placeholder="" name="query" class="search-input" style="text-align: center;">
             <button type="submit" class="search-button">Search</button>
         </form>
+        
+
+        <script>
+            // Add this JavaScript to toggle the dropdown on button click
+document.addEventListener("DOMContentLoaded", function () {
+    var profileDropdown = document.querySelector(".profile-dropdown");
+    var dropdownContent = profileDropdown.querySelector(".dropdown-content");
+
+    profileDropdown.addEventListener("click", function () {
+        dropdownContent.classList.toggle("show");
+    });
+});
+
+        </script>
           
-    
+     
+        
+        
   
 </body>
 </html>

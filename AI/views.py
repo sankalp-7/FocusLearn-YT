@@ -48,9 +48,9 @@ def summarize_view(request):
     with urllib.request.urlopen(url) as response:
         response_text = response.read()
         data = json.loads(response_text.decode())
-        pprint.pprint(data)
+        # pprint.pprint(data)
         req_title=data['title']
-        print(data['title'])
+        
     if video_url:
         #summarization logic using the video_url
         youtube_url="https://www.youtube.com/watch?v="+video_url
@@ -63,6 +63,7 @@ def summarize_view(request):
         if cached_transcript:
             transcript_text = cached_transcript
             print("data coming from redis")
+            print(transcript_text)
         else:
             transcript = YouTubeTranscriptApi.get_transcript(video_id)
 
@@ -70,13 +71,14 @@ def summarize_view(request):
             for segment in transcript:
                 transcript_text += segment["text"] + " "
             cache_transcript(video_id, transcript_text)
+            print(transcript_text)
 
         def split_text_into_chunks(text, max_chunk_size):
             return textwrap.wrap(text, max_chunk_size)
         max_chunk_size = 4000
         transcript_chunks = split_text_into_chunks(transcript_text, max_chunk_size)
         summaries = ""
-        openai.api_key = "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"
+        openai.api_key = "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"
         try:
             for chunk in transcript_chunks:
                 response = openai.ChatCompletion.create(
@@ -127,7 +129,7 @@ def quiz_view(request):
 }
 give result directly.'''
         try:
-            openai.api_key = "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"
+            openai.api_key = "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"
             response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo-16k",
             messages=[
@@ -138,7 +140,7 @@ give result directly.'''
             )
             quiz_questions = response['choices'][0]['message']['content']
             print("Quiz Questions:")
-            print(quiz_questions)
+            
             if type(quiz_questions)==list:
                 quiz_questions=quiz_questions[0]
             return render(request,'AI/quiz.html',{'quiz_q':quiz_questions,'back':video_url})
