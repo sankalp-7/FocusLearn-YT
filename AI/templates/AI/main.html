@@ -3,6 +3,8 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,500&display=swap">
+    <link rel = "icon" href = "PYT.png" type = "image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <style>
         /* Global styles */
         body {
@@ -148,13 +150,75 @@
             color: #FF0000;
             display: inline;
         }
+        .header1 {
+        display: flex;
+    justify-content: flex-end;
+    align-items: center; /* Vertically center the profile button */
+    padding: 20px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.profile-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    color: #FF0000;
+}
+
+.dropdown-content {
+    display: none;
+    background-color: #333;
+    position: absolute;
+    background-color: #1F1F1F;
+    min-width: 100px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    bottom: -468%; /* Position above the button */
+    left: -247%;
+}
+/* Add this to your existing CSS */
+.dropdown-content.show {
+    display: block;
+
+}
+
+
+.dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 16px;
+}
+.dropdown-content a:hover {
+    background-color: #333;
+}
     </style>
 </head>
 <body>
     <div class="header">
-        <a href="/"><button class="back-button">←</button></a>
+        <a href="/search/"><button class="back-button">←</button></a>
     </div>
-    
+    <div class="header1">
+        <div class="profile-dropdown">
+            <button class="profile-button">
+                <i class="fas fa-user-circle"></i>
+            </button>
+            <div class="dropdown-content">
+                <a href="/profile/">Profile</a>
+                <a href="/settings/">Settings</a>
+                <a href="/logout/">Logout</a>
+            </div>
+        </div>
+    </div>
     <div class="content">
         <h3>Results For <p class="queryy">{{q}}...</p></h3>
         <div class="video-list" id="video-list">
@@ -173,6 +237,18 @@
             
         </div>
     </div>
+    <script>
+        // Add this JavaScript to toggle the dropdown on button click
+document.addEventListener("DOMContentLoaded", function () {
+var profileDropdown = document.querySelector(".profile-dropdown");
+var dropdownContent = profileDropdown.querySelector(".dropdown-content");
+
+profileDropdown.addEventListener("click", function () {
+    dropdownContent.classList.toggle("show");
+});
+});
+
+    </script>
     
     <script>
         
@@ -250,13 +326,13 @@ function openNotesForm(videoUrl) {
         function summarizeVideo(videoUrl) {
             console.log("hello")
             console.log(videoUrl)
-            const summarizeUrl = `/summarize-view/?url=${encodeURIComponent(videoUrl)}`;
+            const summarizeUrl = `/search/summarize-view/?url=${encodeURIComponent(videoUrl)}`;
             window.location.href = summarizeUrl;
         }
         function quizVideo(videoUrl) {
             console.log("hello")
             console.log(videoUrl)
-            const quizUrl = `/quiz-view/?url=${encodeURIComponent(videoUrl)}`;
+            const quizUrl = `/search/quiz-view/?url=${encodeURIComponent(videoUrl)}`;
             window.location.href = quizUrl;
         }
         displayVideos(jsonData.items);

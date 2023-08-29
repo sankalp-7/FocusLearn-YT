@@ -1,9 +1,6 @@
 Django==4.1.3
+django_ckeditor==6.5.1
 google_api_python_client==2.97.0
 openai==0.27.8
 redis==4.5.1
-torch==2.0.1
-torchaudio==2.0.2
-transformers==4.21.3
 youtube_transcript_api==0.6.1
-

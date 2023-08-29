@@ -1,7 +1,7 @@
 FROM python:3.10
 ENV PYTHONUNBUFFERED=1
 
-
+RUN pip3 install django_ckeditor
 WORKDIR /focus_yt
 
 COPY requirements.txt requirements.txt

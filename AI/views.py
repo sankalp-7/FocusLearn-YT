@@ -1,14 +1,11 @@
+import textwrap
 from django.shortcuts import render
 from apiclient.discovery import build
 from django.http import JsonResponse
 import json
 import re
 from youtube_transcript_api import YouTubeTranscriptApi
-import torch
-import torchaudio
 import openai
-import textwrap
-from transformers import pipeline
 import urllib.request
 import json
 import urllib
@@ -17,7 +14,7 @@ from focus_yt.settings import redis_connection
 import pprint
 
 # Create your views here.
-
+print(redis_connection)
 api_key="AIzaSyCRzrt-0rHNQ4DzybpAeWSO_q7SyDR2OJo"
 youtube=build('youtube','v3',developerKey=api_key)
 
@@ -78,7 +75,7 @@ def summarize_view(request):
         max_chunk_size = 4000
         transcript_chunks = split_text_into_chunks(transcript_text, max_chunk_size)
         summaries = ""
-        openai.api_key = ""
+        openai.api_key = "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"
         try:
             for chunk in transcript_chunks:
                 response = openai.ChatCompletion.create(
@@ -129,7 +126,7 @@ def quiz_view(request):
 }
 give result directly.'''
         try:
-            openai.api_key = ""
+            openai.api_key = "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"
             response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo-16k",
             messages=[
