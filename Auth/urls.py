@@ -8,5 +8,6 @@ urlpatterns=[
     path('logout/',logout,name='logout'),
     path('signin/',signin),
     path('save-notes/',save_notes, name='save_notes'),
+    path('your-notes/',yournotes)
 
 ]

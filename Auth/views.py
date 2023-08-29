@@ -8,7 +8,18 @@ from.forms import NotesForm
 import urllib.request
 import json
 import urllib
+import re
 # Create your views here.
+def extract_url_parameter(url):
+    pattern = r'\?url=(\w+)'
+    match = re.search(pattern, url)
+    
+    if match:
+        parameter_value = match.group(1)
+        return parameter_value
+    else:
+        return None
+    
 def signup(request):
     if request.method=='POST':
         username=request.POST['full_name']
@@ -77,6 +88,7 @@ def settings(request):
     return render(request,'Auth/settings.html',{'leetcode':l,'github':g,'codechef':c})
 
 def save_notes(request):
+    referring_url = request.META.get('HTTP_REFERER')
     video_url = request.GET.get('url')
     params = {"format": "json", "url": "https://www.youtube.com/watch?v=%s" % video_url}
     url = "https://www.youtube.com/oembed"
@@ -97,7 +109,15 @@ def save_notes(request):
             notes = form.cleaned_data['content']
             user_profile = UserProfile.objects.get(user=request.user)
             Notes.objects.create(user_profile=user_profile, video_id=video_id, content=notes)
-            return redirect('/get-videos/')
+            print(referring_url)
+            parameter_value = extract_url_parameter(referring_url)
+            print("success in note saving")
+            return redirect(f'/your-notes/?url={parameter_value}')
         else:
             return JsonResponse({'errors': form.errors}, status=400)
     return render(request,'Auth/notes.html',{'notes_form':form,'vtitle':req_title})
+
+def yournotes(request):
+    video_url = request.GET.get('url')
+    print(video_url)
+    return render(request,'Auth/savednotes.html')
