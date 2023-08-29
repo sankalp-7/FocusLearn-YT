@@ -213,6 +213,7 @@
         }
 
         function openModal(videoId) {
+            console.log(videoId)
     const modalButtons = document.querySelector('.modal-buttons');
     modalButtons.innerHTML = ''; 
     const summarizeButton = document.createElement('button');
@@ -234,7 +235,8 @@
     modal.style.display = 'flex';
 }
 
-function openNotesForm(videoId) {
+function openNotesForm(videoUrl) {
+    console.log("bcbcbc")
     const NotesUrl = `/save-notes/?url=${encodeURIComponent(videoUrl)}`;
     window.location.href = NotesUrl;
 }

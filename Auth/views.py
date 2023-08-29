@@ -65,14 +65,17 @@ def settings(request):
     return render(request,'Auth/settings.html')
 
 def save_notes(request):
-    if request.method == 'POST' and request.is_ajax():
+    form=NotesForm()
+    video_url = request.GET.get('url')
+    if request.method == 'POST':
+        print("helllooooo")
         form = NotesForm(request.POST)
         if form.is_valid():
-            video_id = form.cleaned_data['video_id']
+            video_id = video_url
             notes = form.cleaned_data['content']
             user_profile = UserProfile.objects.get(user=request.user)
             Notes.objects.create(user_profile=user_profile, video_id=video_id, content=notes)
             return JsonResponse({'message': 'Notes saved successfully.'})
         else:
             return JsonResponse({'errors': form.errors}, status=400)
-    return JsonResponse({'error': 'Invalid request.'}, status=400)
+    return render(request,'Auth/notes.html',{'notes_form':form})
