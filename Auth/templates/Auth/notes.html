@@ -5,20 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-         body {
+        body {
             margin: 0;
             padding: 0;
             font-family: 'Poppins', sans-serif;
             background-color: #000;
             color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
         }
         .head {
             color: #fff;
             font-family: 'Poppins', sans-serif;
             font-weight: 800;
             font-size: 30px;
-            text-align: center;
-            padding-top: 20px; /* Add padding at the top */
+            margin-bottom: 20px;
+        }
+        .summary-title {
+            font-size: 24px;
+            color: white;
+            text-shadow: 2px 2px 5px red;
+            margin: 0;
+        }
+        .notes-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 80%;
+            max-width: 600px;
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+        #not {
+            width: 120%;
+            min-height: 100px;
+            padding: 10px;
+            margin-bottom: 10px;
         }
         .signup-button {
             background-color: #FF0000;
@@ -29,34 +55,24 @@
             font-size: 18px;
             cursor: pointer;
             transition: background-color 0.3s ease;
-            margin-top: 10px;
+            margin-top: 20px;
         }
-        .summary-title {
-            font-size: 24px;
-            margin-top: 0; 
-        }
-
     </style>
 </head>
 <body>
     <div class="head">
         <h3>Create <span style="color:#FF0000;">Notes</span></h3>
     </div>
-    <h3 class="summary-title" style="color: white;text-shadow: 2px 2px 5px red;">Summary for {{vtitle}}</h3>
-    <form action="" method="post">
+    <h3 class="summary-title">Notes for {{vtitle}}</h3>
+    <form action="" method="post" class="notes-form">
         {% csrf_token %}
-        <textarea name="content" id="not" rows="10" cols="40">
-            {{ notes_form.content.value|default:'' }}
-        </textarea>
-                <button type="submit" class="signup-button">Save Notes</button>
+        <textarea name="content" id="not" rows="4" placeholder="Enter your notes"></textarea>
+        <button type="submit" class="signup-button">Save Notes</button>
     </form>
-    <!-- Add these lines within the <head> section -->
-<script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
-<script src="https://cdn.ckeditor.com/4.16.2/standard/adapters/jquery.js"></script>
-<script>
-    // Initialize CKEditor on the textarea
-    CKEDITOR.replace('not');
-</script>
-
+    <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/4.16.2/standard/adapters/jquery.js"></script>
+    <script>
+        CKEDITOR.replace('not');
+    </script>
 </body>
 </html>
