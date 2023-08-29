@@ -74,15 +74,17 @@
         <h1>FocusLearn <span style="color:#FF0000;">YT</span></h1>
     </div>
     <div class="notes-container">
+        {% for note in notes %}
         <div class="note-bar">
             <div class="note-content">
-                <span>YouTube Video Name 1</span>
-                <span>⭥</span>
+                <span>{{note.videotitle}}</span>
+                <span>➤</span>
             </div>
             <div class="note-summary">
-                Summary for Video 1
+                {{ note.content|safe }}
             </div>
         </div>
+        {% endfor %}
         
     </div>
 </body>

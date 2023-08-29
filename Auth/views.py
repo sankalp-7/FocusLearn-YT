@@ -108,7 +108,7 @@ def save_notes(request):
             video_id = video_url
             notes = form.cleaned_data['content']
             user_profile = UserProfile.objects.get(user=request.user)
-            Notes.objects.create(user_profile=user_profile, video_id=video_id, content=notes)
+            Notes.objects.create(user_profile=user_profile, video_id=video_id, content=notes,videotitle=req_title)
             print(referring_url)
             parameter_value = extract_url_parameter(referring_url)
             print("success in note saving")
@@ -118,6 +118,8 @@ def save_notes(request):
     return render(request,'Auth/notes.html',{'notes_form':form,'vtitle':req_title})
 
 def yournotes(request):
-    video_url = request.GET.get('url')
-    print(video_url)
-    return render(request,'Auth/savednotes.html')
+    referring_url = request.META.get('HTTP_REFERER')
+    curr_user=request.user
+    profile_obj=UserProfile.objects.get(user=curr_user)
+    notes=Notes.objects.filter(user_profile=profile_obj)
+    return render(request,'Auth/savednotes.html',{'notes':notes})

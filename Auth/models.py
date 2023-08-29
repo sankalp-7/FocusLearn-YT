@@ -10,6 +10,7 @@ class UserProfile(models.Model):
     github_link=models.URLField(max_length=200)
 
 class Notes(models.Model):
+    videotitle=models.CharField(max_length=1000,default="")
     user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     video_id=models.CharField(max_length=1000)
     content=RichTextField()
