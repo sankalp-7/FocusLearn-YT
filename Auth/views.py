@@ -112,13 +112,12 @@ def save_notes(request):
             print(referring_url)
             parameter_value = extract_url_parameter(referring_url)
             print("success in note saving")
-            return redirect(f'/your-notes/?url={parameter_value}')
+            return redirect('/your-notes/')
         else:
             return JsonResponse({'errors': form.errors}, status=400)
     return render(request,'Auth/notes.html',{'notes_form':form,'vtitle':req_title})
 
 def yournotes(request):
-    referring_url = request.META.get('HTTP_REFERER')
     curr_user=request.user
     profile_obj=UserProfile.objects.get(user=curr_user)
     notes=Notes.objects.filter(user_profile=profile_obj)

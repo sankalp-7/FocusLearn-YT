@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel = "icon" href = "PYT.png" type = "image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <title>Focus YT--Signup</title>
         <style>
         body {
@@ -104,9 +106,72 @@
             transition-delay: 0.1s;
             transform: scale(1.1);
         }
+        .header {
+        display: flex;
+    justify-content: flex-end;
+    align-items: center; /* Vertically center the profile button */
+    padding: 20px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.profile-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    color: #FF0000;
+}
+
+.dropdown-content {
+    display: none;
+    background-color: #333;
+    position: absolute;
+    background-color: #1F1F1F;
+    min-width: 100px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    bottom: -430%; /* Position above the button */
+    left: -210%;
+}
+/* Add this to your existing CSS */
+.dropdown-content.show {
+    display: block;
+
+}
+
+
+.dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 16px;
+}
+.dropdown-content a:hover {
+    background-color: #333;
+}
     </style>
 </head>
 <body>
+    <div class="header">
+        <div class="profile-dropdown">
+            <button class="profile-button">
+                <i class="fas fa-user-circle"></i>
+            </button>
+            <div class="dropdown-content">
+                <a href="/your-notes/">Profile</a>
+                <a href="/settings/">Settings</a>
+                <a href="/logout/">Logout</a>
+            </div>
+        </div>
+    </div>
     <a href="/search/" class="back-button">←</a>
     <div class="head">
         <h1>Settings <span style="color:#FF0000;">Page</span></h1>
@@ -139,5 +204,17 @@
             </form>
         </div>
     </div>
+    <script>
+        // Add this JavaScript to toggle the dropdown on button click
+    document.addEventListener("DOMContentLoaded", function () {
+    var profileDropdown = document.querySelector(".profile-dropdown");
+    var dropdownContent = profileDropdown.querySelector(".dropdown-content");
+    
+    profileDropdown.addEventListener("click", function () {
+    dropdownContent.classList.toggle("show");
+    });
+    });
+    
+    </script>
 </body>
 </html>

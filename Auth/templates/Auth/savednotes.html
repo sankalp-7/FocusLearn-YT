@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;800&display=swap" rel="stylesheet">
+    <link rel = "icon" href = "PYT.png" type = "image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <title>Saved Notes</title>
     <style>
         body {
@@ -12,8 +15,28 @@
             background-color: #000;
             color: #fff;
         }
-       
+        .back-button {
+            display: inline-block;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            text-decoration: none;
+            color: red;
+            transition: transform 0.2s;
+        }
 
+        .back-button:hover {
+            transform: scale(1.1);
+        }
+       
+        .summary-title {
+            font-size: 24px;
+            color: white;
+            text-shadow: 2px 2px 5px red;
+            margin: 0;
+            text-align: center;
+        }
         .head {
             color: #fff;
             font-family: 'Poppins', sans-serif;
@@ -56,23 +79,78 @@
         .note-bar.active .note-summary {
             display: block;
         }
-    </style>
-    <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            const noteBars = document.querySelectorAll('.note-bar');
+        /* Add this in the <style> tag in your <head> */
+    .header {
+        display: flex;
+    justify-content: flex-end;
+    align-items: center; /* Vertically center the profile button */
+    padding: 20px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
 
-            noteBars.forEach(bar => {
-                bar.addEventListener('click', () => {
-                    bar.classList.toggle('active');
-                });
-            });
-        });
-    </script>
+.profile-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    color: #FF0000;
+}
+
+.dropdown-content {
+    display: none;
+    background-color: #333;
+    position: absolute;
+    background-color: #1F1F1F;
+    min-width: 100px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    bottom: -468%; /* Position above the button */
+    left: -250%;
+}
+/* Add this to your existing CSS */
+.dropdown-content.show {
+    display: block;
+
+}
+
+
+.dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 16px;
+}
+.dropdown-content a:hover {
+    background-color: #333;
+}
+    </style>
 </head>
 <body>
+    <a href="/search/" class="back-button">←</a>
+    <div class="header">
+        <div class="profile-dropdown">
+            <button class="profile-button">
+                <i class="fas fa-user-circle"></i>
+            </button>
+            <div class="dropdown-content">
+                <a href="/your-notes/">Profile</a>
+                <a href="/settings/">Settings</a>
+                <a href="/logout/">Logout</a>
+            </div>
+        </div>
+    </div>
     <div class="head">
         <h1>FocusLearn <span style="color:#FF0000;">YT</span></h1>
     </div>
+    <h3 class="summary-title">Your Saved Notes</h3>
     <div class="notes-container">
         {% for note in notes %}
         <div class="note-bar">
@@ -87,5 +165,31 @@
         {% endfor %}
         
     </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const noteBars = document.querySelectorAll('.note-bar');
+
+            noteBars.forEach(bar => {
+                bar.addEventListener('click', () => {
+                    bar.classList.toggle('active');
+                });
+            });
+        });
+    </script>
+
+<script>
+    // Add this JavaScript to toggle the dropdown on button click
+document.addEventListener("DOMContentLoaded", function () {
+var profileDropdown = document.querySelector(".profile-dropdown");
+var dropdownContent = profileDropdown.querySelector(".dropdown-content");
+
+profileDropdown.addEventListener("click", function () {
+dropdownContent.classList.toggle("show");
+});
+});
+
+</script>
+  
 </body>
 </html>
