@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from ckeditor.fields import RichTextField 
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -11,6 +12,6 @@ class UserProfile(models.Model):
 class Notes(models.Model):
     user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     video_id=models.CharField(max_length=1000)
-    content=models.TextField(max_length=1000)
+    content=RichTextField()
 
 

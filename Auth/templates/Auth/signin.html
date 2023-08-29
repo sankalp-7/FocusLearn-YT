@@ -88,6 +88,8 @@
         }
         .signup-input{
             text-align: center;
+            width: max-content;
+            margin-bottom: 40px;
         }
     </style>
 </head>
@@ -111,14 +113,17 @@
             <form action="" method="post" class="signup-form">
                 {% csrf_token %}
                 <div class="form-group">
-                    <input type="text" placeholder="Username" name="username" class="signup-input">
+                    <input type="text" placeholder="Enter Username" name="username" class="signup-input">
                 </div>
                 <div class="form-group">
-                    <input type="password" placeholder="Password" name="password" class="signup-input">
+                    <input type="password" placeholder="Enter Password" name="password" class="signup-input">
                 </div>
                 <button type="submit" class="signup-button">Sign In</button>
             </form>
-            <p>Dont Have An Account ?<a href="/">Signup</a></p>
+            <p style="font-family: 'Poppins', sans-serif; color: #FF0000; font-size: 16px; margin-top: 20px;">
+                Don't have an account? <a href="/" style="color: #FF0000; text-decoration: none; font-weight: 600;">Sign up</a>
+            </p>
+            
         </div>
     </div>
 </body>

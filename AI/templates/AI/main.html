@@ -168,11 +168,12 @@
                 <iframe id="modal-iframe" frameborder="0" allowfullscreen></iframe>
             </div>
             <div class="modal-buttons">
-                <!-- <button class="modal-button" onclick="summarizeVideo('{{src}}')">Summarize</button> -->
-                <!-- <button class="modal-button">Generate Quiz</button> -->
+               
             </div>
+            
         </div>
     </div>
+    
     <script>
         
 
@@ -181,6 +182,7 @@
         const videoListContainer = document.getElementById('video-list');
         const modal = document.getElementById('video-modal');
         const modalIframe = document.getElementById('modal-iframe');
+     
 
         const jsonData = {{ video_data|safe }};
         // Function to display videos
@@ -211,22 +213,33 @@
         }
 
         function openModal(videoId) {
-            const modalButtons = document.querySelector('.modal-buttons');
-            modalButtons.innerHTML = ''; 
-            const summarizeButton = document.createElement('button');
-            summarizeButton.classList.add('modal-button');
-            summarizeButton.textContent = 'Summarize';
-            summarizeButton.addEventListener('click', () => summarizeVideo(videoId)); // Pass video ID
-            const quizButton = document.createElement('button');
-            quizButton.classList.add('modal-button');
-            quizButton.textContent = 'Genarate Quiz';
-            quizButton.addEventListener('click', () => quizVideo(videoId)); // Pass video ID
-            modalButtons.appendChild(summarizeButton);
-            modalButtons.appendChild(quizButton);
-            modalIframe.src = `https://www.youtube.com/embed/${videoId}`;
-            modal.style.display = 'flex';
-            
-        }
+    const modalButtons = document.querySelector('.modal-buttons');
+    modalButtons.innerHTML = ''; 
+    const summarizeButton = document.createElement('button');
+    summarizeButton.classList.add('modal-button');
+    summarizeButton.textContent = 'Summarize';
+    summarizeButton.addEventListener('click', () => summarizeVideo(videoId)); // Pass video ID
+    const quizButton = document.createElement('button');
+    quizButton.classList.add('modal-button');
+    quizButton.textContent = 'Generate Quiz';
+    quizButton.addEventListener('click', () => quizVideo(videoId)); // Pass video ID
+    const notesButton = document.createElement('button');
+    notesButton.classList.add('modal-button');
+    notesButton.textContent = 'Make Notes';
+    notesButton.addEventListener('click', () => openNotesForm(videoId)); // Pass video ID 
+    modalButtons.appendChild(summarizeButton);
+    modalButtons.appendChild(quizButton);
+    modalButtons.appendChild(notesButton);
+    modalIframe.src = `https://www.youtube.com/embed/${videoId}`;
+    modal.style.display = 'flex';
+}
+
+function openNotesForm(videoId) {
+    const NotesUrl = `/save-notes/?url=${encodeURIComponent(videoUrl)}`;
+    window.location.href = NotesUrl;
+}
+
+
 
         function closeModal() {
             modalIframe.src = '';

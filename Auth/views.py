@@ -4,6 +4,7 @@ from django.contrib.auth.models import User,auth
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from.models import UserProfile,Notes
+from.forms import NotesForm
 
 # Create your views here.
 def signup(request):
@@ -48,6 +49,10 @@ def signin(request):
             return redirect('/')
     return render(request,'Auth/signin.html')
 @login_required(login_url='/signin')
+def logout(request):
+    auth.logout(request)
+    return redirect('/signin/')
+@login_required(login_url='/signin')
 def settings(request):
     print("settings loading/......")
     curr_user=UserProfile.objects.get(user=request.user)
@@ -58,3 +63,16 @@ def settings(request):
         curr_user.save()
         return redirect('/search/')
     return render(request,'Auth/settings.html')
+
+def save_notes(request):
+    if request.method == 'POST' and request.is_ajax():
+        form = NotesForm(request.POST)
+        if form.is_valid():
+            video_id = form.cleaned_data['video_id']
+            notes = form.cleaned_data['content']
+            user_profile = UserProfile.objects.get(user=request.user)
+            Notes.objects.create(user_profile=user_profile, video_id=video_id, content=notes)
+            return JsonResponse({'message': 'Notes saved successfully.'})
+        else:
+            return JsonResponse({'errors': form.errors}, status=400)
+    return JsonResponse({'error': 'Invalid request.'}, status=400)
