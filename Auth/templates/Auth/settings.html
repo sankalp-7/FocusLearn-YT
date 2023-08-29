@@ -89,11 +89,27 @@
         .signup-input{
             text-align: center;
         }
+        .back-button {
+            display: inline-block;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            text-decoration: none;
+            color: red;
+            transition: transform 0.2s;
+        }
+
+        .back-button:hover {
+            transition-delay: 0.1s;
+            transform: scale(1.1);
+        }
     </style>
 </head>
 <body>
+    <a href="/search/" class="back-button">←</a>
     <div class="head">
-        <h1>Settings Page</h1>
+        <h1>Settings <span style="color:#FF0000;">Page</span></h1>
     </div>
     <div class="center-container">
         <div class="content">
@@ -111,13 +127,13 @@
             <form action="" method="post" class="signup-form">
                 {% csrf_token %}
                 <div class="form-group">
-                    <input type="text" placeholder="Leetcode Link" name="leetcode" class="signup-input">
+                    <input type="text" placeholder="Leetcode Link" name="leetcode" class="signup-input" value={{leetcode}}>
                 </div>
                 <div class="form-group">
-                    <input type="text" placeholder="Github Link" name="github" class="signup-input">
+                    <input type="text"  placeholder="Github Link" name="github" class="signup-input" value={{github}}>
                 </div>
                 <div class="form-group">
-                    <input type="text" placeholder="Codechef Link" name="codechef" class="signup-input">
+                    <input type="text"  placeholder="Codechef Link" name="codechef" class="signup-input" value={{codechef}}>
                 </div>
                 <button type="submit" class="signup-button">Submit</button>
             </form>
