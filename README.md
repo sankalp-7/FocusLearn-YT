@@ -18,6 +18,10 @@ Focus Learn YT is a web application designed to provide students with a distract
 
 - **Responsive Design:** Enjoy a seamless learning experience across various devices, including desktops, tablets, and smartphones.
 
+- **Personal Notes Making:** This feature allows user to create personalized notes on videos.
+
+- **User Profiles:** Added authentication for personal user profiles.
+
  ## How It Works
  - **Quiz Generation:** When a user clicks a video he has two other options than simply watching the video--He can generate a concise summary of the video by clicking the **summarize** button or generate a quiz based on the video's content by clicking the **generate quiz** button.
  - The quiz is generated as follows--The youtube transcript is retrieved and then sent to chatgpt via api call along with a prompt to generate 10 quiz questions. The questions are then transformed to json format and is integrated at the frontend.
@@ -52,6 +56,11 @@ To start using Focus Learn YT, follow these steps:
 
 
 ## Images 
+
+# LOGIN PAGE
+
+![image](https://github.com/sankalp-7/FocusLearn-YT/assets/104098061/1bba73f1-6d3f-432f-8d8b-c7ae9a7881ab)
+
 # HOME PAGE
 
 ![image](https://github.com/sankalp-7/FocusLearn-YT/assets/104098061/87ee2608-5d3f-429f-9b14-f27e3add0f77)
@@ -88,6 +97,13 @@ And 7 more questions are generated for user to answer...
 
 ![image](https://github.com/sankalp-7/FocusLearn-YT/assets/104098061/4ac68909-bdce-409c-906a-e43eb3b52301)
 
+# Notes View
+
+![image](https://github.com/sankalp-7/FocusLearn-YT/assets/104098061/65f9cb4e-44f9-47a5-98f4-089fee257143)
+
+# Saved Notes
+
+![image](https://github.com/sankalp-7/FocusLearn-YT/assets/104098061/791885d1-887a-411d-b15e-7003ea550a15)
 
 
 
