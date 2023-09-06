@@ -31,7 +31,7 @@ def home(request):
 def get_videos(request):
     if request.method=='POST':
         yt_query=request.POST['query']
-        req=youtube.search().list(q=yt_query,part='snippet',type='video',maxResults=50)
+        req=youtube.search().list(q=yt_query,part='snippet',type='video',videoCaption='closedCaption',relevanceLanguage='en',maxResults=50)
         res=req.execute()
         return render(request, 'AI/main.html', {'video_data': res,'q':yt_query})
     return render(request,'AI/main.html')
