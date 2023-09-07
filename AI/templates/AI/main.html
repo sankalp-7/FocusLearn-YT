@@ -234,7 +234,20 @@
             <div class="modal-buttons">
                
             </div>
-            
+            <div id="check-result"></div>
+        </div>
+    </div>
+    <div class="modal" id="query-modal">
+        <div class="modal-content">
+            <button class="close-button" onclick="closeQueryModal()">✕</button>
+            <div class="modal-content">
+                <h2>Enter Your Query</h2>
+                <form id="query-form">
+                    <label for="query">Query:</label>
+                    <input type="text" id="query-input" name="query" required>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
         </div>
     </div>
     <script>
@@ -289,7 +302,8 @@ profileDropdown.addEventListener("click", function () {
         }
 
         function openModal(videoId) {
-            console.log(videoId)
+    const checkResult = document.getElementById('check-result');
+    checkResult.innerHTML="";
     const modalButtons = document.querySelector('.modal-buttons');
     modalButtons.innerHTML = ''; 
     const summarizeButton = document.createElement('button');
@@ -304,9 +318,14 @@ profileDropdown.addEventListener("click", function () {
     notesButton.classList.add('modal-button');
     notesButton.textContent = 'Make Notes';
     notesButton.addEventListener('click', () => openNotesForm(videoId)); // Pass video ID 
+    const checkButton = document.createElement('button');
+    checkButton.classList.add('modal-button');
+    checkButton.textContent = 'check video';
+    checkButton.addEventListener('click', () => opencheckform(videoId)); // Pass video ID 
     modalButtons.appendChild(summarizeButton);
     modalButtons.appendChild(quizButton);
     modalButtons.appendChild(notesButton);
+    modalButtons.appendChild(checkButton);
     modalIframe.src = `https://www.youtube.com/embed/${videoId}`;
     modal.style.display = 'flex';
 }
@@ -316,6 +335,61 @@ function openNotesForm(videoUrl) {
     const NotesUrl = `/save-notes/?url=${encodeURIComponent(videoUrl)}`;
     window.location.href = NotesUrl;
 }
+function openQueryModal() {
+    const queryModal = document.getElementById('query-modal');
+    queryModal.style.display = 'flex';
+}
+
+function closeQueryModal() {
+    const queryModal = document.getElementById('query-modal');
+    queryModal.style.display = 'none';
+}
+
+function opencheckform(videoId) {
+    // Open the query modal
+    openQueryModal();
+
+    // Handle the form submission
+    const queryForm = document.getElementById('query-form');
+    queryForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        const queryInput = document.getElementById('query-input');
+        const query = queryInput.value.trim();
+        if (!query) {
+            alert('Please enter a query.');
+            return;
+        }
+
+        // Close the query modal
+        closeQueryModal();
+
+        // Proceed with your logic (e.g., sending the query to the server)
+        const checkUrl = `/search/check_video_content/?video_url=${encodeURIComponent(videoId)}&query=${encodeURIComponent(query)}`;
+
+        // Send a request to the server
+        fetch(checkUrl)
+            .then(response => response.json())
+            .then(data => {
+                const checkResult = document.getElementById('check-result');
+                console.log(data)
+                if (data.error) {
+                    // Handle the error case
+                    checkResult.innerHTML = `<p>Error: ${data.error}</p>`;
+                } else {
+                    // Update the modal content with the response
+                    checkResult.innerHTML = `<p><span style="color:red;">Answer</span>: ${data.answer}</p>`;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                const checkResult = document.getElementById('check-result');
+                checkResult.innerHTML = '<p>An error occurred.</p>';
+            });
+            
+    });
+}
+
+
 
 
 

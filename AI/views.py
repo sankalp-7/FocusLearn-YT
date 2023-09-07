@@ -31,7 +31,7 @@ def home(request):
 def get_videos(request):
     if request.method=='POST':
         yt_query=request.POST['query']
-        req=youtube.search().list(q=yt_query,part='snippet',type='video',maxResults=50)
+        req=youtube.search().list(q=yt_query,part='snippet',type='video',relevanceLanguage='en',maxResults=50)
         res=req.execute()
         return render(request, 'AI/main.html', {'video_data': res,'q':yt_query})
     return render(request,'AI/main.html')
@@ -145,3 +145,45 @@ give result directly.'''
             return JsonResponse({'error': 'Chatgpt error.Chatgpt May Be Down'})
     return JsonResponse({'error': 'Invalid request.'})
 
+
+def check_video_based_on_query(request):
+        q=request.GET.get('query','') 
+        video_url = request.GET.get('video_url') 
+        if video_url:
+            youtube_url="https://www.youtube.com/watch?v="+video_url
+            match = re.search(r"v=([A-Za-z0-9_-]+)", youtube_url)
+            if match:
+                video_id = match.group(1)
+            else:
+                raise ValueError("Invalid YouTube URL")
+        cached_transcript = get_cached_transcript(video_id)
+        if cached_transcript:
+            transcript_text = cached_transcript
+        else:
+            transcript = YouTubeTranscriptApi.get_transcript(video_id)
+            transcript_text = ""
+            for segment in transcript:
+                text = segment["text"]
+                transcript_text += f"{text}\n"
+            cache_transcript(video_id, transcript_text)
+        prompt = f"Is there information about '{q}' in the video transcript:\n{transcript_text}\nAnswer:"
+        openai.api_key = ""
+        print(q,youtube_url)
+        try:
+            print("trying chatgpt")
+            response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo-16k",
+                messages=[
+                    {"role": "system", "content": "You are a helpful assistant."},
+                    {"role": "user", "content": f"Is there information about '{q}' in the video transcript:\n{transcript_text}answer to the point short and concise\nAnswer:"}
+                            ]
+                )
+            print(response)
+            answer = response['choices'][0]['message']['content'].strip() + " "
+            print(answer)
+            return JsonResponse({'answer': answer})
+        except Exception as e:
+            return JsonResponse({'error': str(e)})
+
+
+        

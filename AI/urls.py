@@ -7,5 +7,6 @@ urlpatterns=[
     path('get-videos/',get_videos),
     path('summarize-view/',summarize_view),
     path('quiz-view/',quiz_view),
+    path('check_video_content/', check_video_based_on_query),
 
 ]
