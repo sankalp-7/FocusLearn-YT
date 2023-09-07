@@ -13,8 +13,24 @@ import redis
 from focus_yt.settings import redis_connection
 import pprint
 import time
-# Create your views here.
-openai.api_key = "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"
+
+import time
+#stops continuous api calls avoiding RateLimit errors
+class RateLimiter:
+    def __init__(self, request_interval):
+        self.request_interval = request_interval
+        self.last_request_time = time.time()
+
+    def wait_for_ratelimit(self):
+        current_time = time.time()
+        elapsed_time = current_time - self.last_request_time
+        sleep_time = self.request_interval - elapsed_time
+        if sleep_time > 0:
+            print(f"stopping curr api req for {sleep_time} seconds")
+            time.sleep(sleep_time)
+        self.last_request_time = time.time()
+
+openai.api_key = ""
 api_key="AIzaSyCRzrt-0rHNQ4DzybpAeWSO_q7SyDR2OJo"
 youtube=build('youtube','v3',developerKey=api_key)
 
@@ -77,6 +93,8 @@ def summarize_view(request):
         summaries = ""
         
         try:
+            rate_limiter = RateLimiter(request_interval=9)
+            rate_limiter.wait_for_ratelimit()
             for chunk in transcript_chunks:
                 response = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo-16k",
@@ -84,8 +102,8 @@ def summarize_view(request):
                 {"role": "system", "content": "You are a helpful assistant."},
                 {"role": "user", "content": f"{chunk}\n\nCreate short concise summary"}
                 ],
-                max_tokens=250,
-                temperature=0.5
+                max_tokens=200,
+                temperature=0.8
             )
             summaries += response['choices'][0]['message']['content'].strip() + " "
             return render(request, 'AI/summary.html', {'summary': summaries,'title_yt':req_title})
@@ -126,7 +144,8 @@ def quiz_view(request):
 }
 give result directly.'''
         try:
-            
+            rate_limiter = RateLimiter(request_interval=9)
+            rate_limiter.wait_for_ratelimit()
             response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo-16k",
             messages=[
@@ -171,6 +190,8 @@ def check_video_based_on_query(request):
        
         try:
             print("trying chatgpt")
+            rate_limiter = RateLimiter(request_interval=9)
+            rate_limiter.wait_for_ratelimit()
             response = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo-16k",
                 messages=[
