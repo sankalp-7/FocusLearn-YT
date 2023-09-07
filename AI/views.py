@@ -60,7 +60,7 @@ def summarize_view(request):
         if cached_transcript:
             transcript_text = cached_transcript
             print("data coming from redis")
-            print(transcript_text)
+          
         else:
             transcript = YouTubeTranscriptApi.get_transcript(video_id)
 
@@ -68,7 +68,7 @@ def summarize_view(request):
             for segment in transcript:
                 transcript_text += segment["text"] + " "
             cache_transcript(video_id, transcript_text)
-            print(transcript_text)
+            
 
         def split_text_into_chunks(text, max_chunk_size):
             return textwrap.wrap(text, max_chunk_size)
@@ -168,19 +168,19 @@ def check_video_based_on_query(request):
             cache_transcript(video_id, transcript_text)
         prompt = f"Is there information about '{q}' in the video transcript:\n{transcript_text}\nAnswer:"
         openai.api_key = ""
-        print(q,youtube_url)
+       
         try:
             print("trying chatgpt")
             response = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo-16k",
                 messages=[
                     {"role": "system", "content": "You are a helpful assistant."},
-                    {"role": "user", "content": f"Is there information about '{q}' in the video transcript:\n{transcript_text}answer to the point short and concise\nAnswer:"}
+                    {"role": "user", "content": f"Is there information about '{q}' in the video transcript:\n{transcript_text}answer to the point like Yes there is information about {q} or No there is no such information about {q}\nAnswer:"}
                             ]
                 )
-            print(response)
+        
             answer = response['choices'][0]['message']['content'].strip() + " "
-            print(answer)
+            
             return JsonResponse({'answer': answer})
         except Exception as e:
             return JsonResponse({'error': str(e)})
