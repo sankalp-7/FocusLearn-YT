@@ -14,7 +14,7 @@ from focus_yt.settings import redis_connection
 import pprint
 
 # Create your views here.
-print(redis_connection)
+openai.api_key = ""
 api_key="AIzaSyCRzrt-0rHNQ4DzybpAeWSO_q7SyDR2OJo"
 youtube=build('youtube','v3',developerKey=api_key)
 
@@ -75,7 +75,7 @@ def summarize_view(request):
         max_chunk_size = 4000
         transcript_chunks = split_text_into_chunks(transcript_text, max_chunk_size)
         summaries = ""
-        openai.api_key = ""
+        
         try:
             for chunk in transcript_chunks:
                 response = openai.ChatCompletion.create(
@@ -126,7 +126,7 @@ def quiz_view(request):
 }
 give result directly.'''
         try:
-            openai.api_key = ""
+            
             response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo-16k",
             messages=[
@@ -167,7 +167,7 @@ def check_video_based_on_query(request):
                 transcript_text += f"{text}\n"
             cache_transcript(video_id, transcript_text)
         prompt = f"Is there information about '{q}' in the video transcript:\n{transcript_text}\nAnswer:"
-        openai.api_key = ""
+        
        
         try:
             print("trying chatgpt")
