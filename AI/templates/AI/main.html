@@ -224,7 +224,7 @@
             border: none;
             border-bottom: 2px solid #FF0000;
             color: black;
-            font-size: 18px;
+            font-size: 14px;
             padding: 10px;
             width: 300px;
             outline: none;
@@ -409,10 +409,10 @@ function opencheckform(videoId) {
                 console.log(data)
                 if (data.error) {
                    
-                    checkResult.innerHTML = `<p>Error: ${data.error}</p>`;
+                    checkResult.innerHTML = `<p>Error:Please try again in 20sec</p>`;
                 } else {
                     
-                    checkResult.innerHTML = `<p><span style="color:red;">Answer</span>: ${data.answer}</p>`;
+                    checkResult.innerHTML = `<p><span style="color:#FF0000;font-weight:800;">Answer</span>: ${data.answer}</p>`;
                 }
             })
             .catch(error => {

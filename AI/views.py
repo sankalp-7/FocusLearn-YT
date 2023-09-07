@@ -12,9 +12,9 @@ import urllib
 import redis
 from focus_yt.settings import redis_connection
 import pprint
-
+import time
 # Create your views here.
-openai.api_key = ""
+openai.api_key = "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"
 api_key="AIzaSyCRzrt-0rHNQ4DzybpAeWSO_q7SyDR2OJo"
 youtube=build('youtube','v3',developerKey=api_key)
 
@@ -175,12 +175,13 @@ def check_video_based_on_query(request):
                 model="gpt-3.5-turbo-16k",
                 messages=[
                     {"role": "system", "content": "You are a helpful assistant."},
-                    {"role": "user", "content": f"Is there information about '{q}' in the video transcript:\n{transcript_text}answer to the point like Yes there is information about {q} or No there is no such information about {q}\nAnswer:"}
-                            ]
+                    {"role": "user", "content": f"Is there information about '{q}' in the video transcript:\n{transcript_text}\n answer should be like:- Yes there is information about {q} in the video or No there is no such information about {q} in the video\nAnswer:"}
+                ],
+                max_tokens=50,
+                temperature=0.5
                 )
-        
+            time.sleep(5)
             answer = response['choices'][0]['message']['content'].strip() + " "
-            
             return JsonResponse({'answer': answer})
         except Exception as e:
             return JsonResponse({'error': str(e)})
