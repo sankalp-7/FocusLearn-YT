@@ -136,6 +136,14 @@
         .modal-button:hover {
             background-color: #D80000;
         }
+        @media (max-width: 768px) {
+    .modal-button {
+        /* Adjust the properties to make buttons smaller */
+        font-size: 12px; /* Reduce the font size */
+        padding: 6px 12px; /* Reduce the padding */
+        margin-right: 10px; /* Reduce margin for spacing */
+    }
+}
         .close-button {
             position: absolute;
             top: 10px;
@@ -201,6 +209,29 @@
 .dropdown-content a:hover {
     background-color: #333;
 }
+.q-btn{
+    background-color: #FF0000;
+            border: none;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-bottom: 30px;
+            font-weight: 900;
+}
+#query-input{
+            border: none;
+            border-bottom: 2px solid #FF0000;
+            color: black;
+            font-size: 18px;
+            padding: 10px;
+            width: 300px;
+            outline: none;
+            width: 100%; 
+            max-width: 300px;
+            margin-bottom: 10px; 
+}
     </style>
 </head>
 <body>
@@ -241,11 +272,11 @@
         <div class="modal-content">
             <button class="close-button" onclick="closeQueryModal()">✕</button>
             <div class="modal-content">
-                <h2>Enter Your Query</h2>
+                <h2>Enter Your <span style="color: #FF0000;">Query</span></h2>
                 <form id="query-form">
-                    <label for="query">Query:</label>
-                    <input type="text" id="query-input" name="query" required>
-                    <button type="submit">Submit</button>
+                    <label for="query" style="text-align: center;font-weight: 800;">Query:</label>
+                    <input type="text" id="query-input" name="query" style="margin-top: 30px; margin-bottom: 30px; border: 0; display: block;display: flex;justify-content: center;" required>
+                    <button type="submit" class="q-btn">Submit</button>
                 </form>
             </div>
         </div>
