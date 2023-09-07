@@ -19,21 +19,25 @@ import time
 class RateLimiter:
     def __init__(self, request_interval):
         self.request_interval = request_interval
-        self.last_request_time = time.time()
-
+        self.last_request_time = None
     def wait_for_ratelimit(self):
+        print(self.last_request_time)
+        if self.last_request_time is None:
+            self.last_request_time=time.time()
         current_time = time.time()
+        print(current_time)
         elapsed_time = current_time - self.last_request_time
+        print(elapsed_time)
         sleep_time = self.request_interval - elapsed_time
         if sleep_time > 0:
             print(f"stopping curr api req for {sleep_time} seconds")
             time.sleep(sleep_time)
+        print("your good to go")
         self.last_request_time = time.time()
-
 openai.api_key = ""
 api_key="AIzaSyCRzrt-0rHNQ4DzybpAeWSO_q7SyDR2OJo"
 youtube=build('youtube','v3',developerKey=api_key)
-
+rate_limiter = RateLimiter(request_interval=15)
 def get_cached_transcript(video_id):
     cached_transcript = redis_connection.get(f'transcript:{video_id}')
     return cached_transcript
@@ -93,7 +97,6 @@ def summarize_view(request):
         summaries = ""
         
         try:
-            rate_limiter = RateLimiter(request_interval=9)
             rate_limiter.wait_for_ratelimit()
             for chunk in transcript_chunks:
                 response = openai.ChatCompletion.create(
@@ -144,7 +147,6 @@ def quiz_view(request):
 }
 give result directly.'''
         try:
-            rate_limiter = RateLimiter(request_interval=9)
             rate_limiter.wait_for_ratelimit()
             response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo-16k",
@@ -190,7 +192,6 @@ def check_video_based_on_query(request):
        
         try:
             print("trying chatgpt")
-            rate_limiter = RateLimiter(request_interval=9)
             rate_limiter.wait_for_ratelimit()
             response = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo-16k",
