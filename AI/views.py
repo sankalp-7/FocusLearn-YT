@@ -14,7 +14,7 @@ from focus_yt.settings import redis_connection
 import pprint
 import time
 # Create your views here.
-openai.api_key = "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"
+openai.api_key = ""
 api_key="AIzaSyCRzrt-0rHNQ4DzybpAeWSO_q7SyDR2OJo"
 youtube=build('youtube','v3',developerKey=api_key)
 
