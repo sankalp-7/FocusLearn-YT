@@ -31,15 +31,13 @@ To start using Focus Learn YT, follow these steps:
 
 1. Clone the repository: `git clone git@github.com:sankalp-7/FocusLearn-YT.git`
 
-2. Change directory to `cd focus_yt`
+2. Install dependencies: `pip install -r requirements.txt`
 
-3. Install dependencies: `pip install -r requirements.txt`
+3. Set up your openAI api and youtube api keys, then: `python manage.py migrate`
 
-4. Set up your openAI api and youtube api keys, then: `python manage.py migrate`
+4. Run the development server: `python manage.py runserver`
 
-5. Run the development server: `python manage.py runserver`
-
-6. Access the app in your web browser at `http://localhost:8000`
+5. Access the app in your web browser at `http://localhost:8000`
 
 *OR*
 
@@ -49,7 +47,7 @@ To start using Focus Learn YT, follow these steps:
 
 3. `docker-compose up --build`
 
-4. open localhost:8000 to view the application
+4. open localhost:80 to view the application
 
 
 
