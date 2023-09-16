@@ -8,7 +8,8 @@ COPY requirements.txt requirements.txt
 RUN pip3 install --upgrade pip && \
     pip3 install -r requirements.txt
 
+RUN pip3 install gunicorn
 
 COPY . .
 
-CMD [ "python3", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["gunicorn", "focus_yt.wsgi:application", "-c", "gunicorn_config.py"]
