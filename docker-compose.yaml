@@ -6,9 +6,11 @@ services:
       - REDIS_HOST=redis
     volumes:
       - .:/focus_yt
+    ports:
+      - 8000:8000
     image: dockerfile
     container_name: focusyt_container
-    command: python manage.py runserver 0.0.0.0:8000
+    command: gunicorn focus_yt.wsgi:application -c gunicorn_config.py
     depends_on:
       - redis
   redis:
