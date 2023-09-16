@@ -7,6 +7,7 @@ import re
 from youtube_transcript_api import YouTubeTranscriptApi
 import openai
 import urllib.request
+from django.contrib.auth.decorators import login_required
 import json
 import urllib
 import redis
@@ -32,7 +33,7 @@ class RateLimiter:
         print("your good to go")
         self.last_request_time = time.time()
 openai.api_key = ""
-api_key="AIzaSyCRzrt-0rHNQ4DzybpAeWSO_q7SyDR2OJo"
+api_key=""
 youtube=build('youtube','v3',developerKey=api_key)
 def get_cached_transcript(video_id):
     cached_transcript = redis_connection.get(f'transcript:{video_id}')
@@ -40,10 +41,11 @@ def get_cached_transcript(video_id):
 def cache_transcript(video_id, transcript_text):
     redis_connection.set(f'transcript:{video_id}', transcript_text)
 
-
+@login_required(login_url='/signin/')
 def home(request):
     return render(request,'AI/home.html')
 
+@login_required(login_url='/signin/')
 def get_videos(request):
     if request.method=='POST':
         yt_query=request.POST['query']
@@ -52,6 +54,7 @@ def get_videos(request):
         return render(request, 'AI/main.html', {'video_data': res,'q':yt_query})
     return render(request,'AI/main.html')
 
+@login_required(login_url='/signin/')
 def summarize_view(request):
     video_url = request.GET.get('url')
     params = {"format": "json", "url": "https://www.youtube.com/watch?v=%s" % video_url}
@@ -84,34 +87,28 @@ def summarize_view(request):
             for segment in transcript:
                 transcript_text += segment["text"] + " "
             cache_transcript(video_id, transcript_text)
-            
 
-        def split_text_into_chunks(text, max_chunk_size):
-            return textwrap.wrap(text, max_chunk_size)
-        max_chunk_size = 4000
-        transcript_chunks = split_text_into_chunks(transcript_text, max_chunk_size)
         summaries = ""
         
         try:
-            rate_limiter = RateLimiter(request_interval=8)
-            rate_limiter.wait_for_ratelimit()
-            for chunk in transcript_chunks:
                 response = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo-16k",
                 messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": f"{chunk}\n\nCreate short concise summary"}
-                ],
-                max_tokens=200,
-                temperature=0.8
-            )
-            summaries += response['choices'][0]['message']['content'].strip() + " "
-            return render(request, 'AI/summary.html', {'summary': summaries,'title_yt':req_title})
-        except Exception as e:
-            return JsonResponse({'error':e})
+                    {"role": "system", "content": "You are a helpful assistant."},
+                    {"role": "user", "content": f"{transcript_text}\n\nCreate a summary, avoid any unimportant details."}
+                    ],
+                    max_tokens=200,
+                    temperature=0.8
+                )
+        except:
+                
+                return JsonResponse({'error': 'ChatGPT May Be Down Pls Try Again Later...'})
+                
+        summaries += response['choices'][0]['message']['content'].strip() + " "
+        return render(request, 'AI/summary.html', {'summary': summaries,'title_yt':req_title})
     return JsonResponse({'error': 'Invalid request.'})
 
-
+@login_required(login_url='/signin/')
 def quiz_view(request):
     video_url = request.GET.get('url')
     if video_url:
@@ -164,7 +161,7 @@ give result directly.'''
             return JsonResponse({'error': 'Chatgpt error.Chatgpt May Be Down'})
     return JsonResponse({'error': 'Invalid request.'})
 
-
+@login_required(login_url='/signin/')
 def check_video_based_on_query(request):
         q=request.GET.get('query','') 
         video_url = request.GET.get('video_url') 
