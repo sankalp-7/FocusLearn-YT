@@ -66,9 +66,10 @@ To start using Focus Learn YT, follow these steps:
 
 ![image](https://github.com/sankalp-7/FocusLearn-YT/assets/104098061/ec72db36-3d3a-4b9b-b01b-2e78d1963883)
 
-# SUMMARY,QUIZ MODAL
+# SUMMARY,QUIZ,NOTES,QUERY MODAL
 
-![image](https://github.com/sankalp-7/FocusLearn-YT/assets/104098061/b49a8413-3535-411c-86ef-20774a75a34f)
+![image](https://github.com/sankalp-7/FocusLearn-YT/assets/104098061/b1473af1-6cfd-4bf3-ad8f-bc52c3539152)
+
 
 # SUMMARY PAGE
 
