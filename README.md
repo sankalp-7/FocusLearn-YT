@@ -23,7 +23,7 @@ Focus Learn YT is a web application designed to provide students with a distract
 - **User Profiles:** Added authentication for personal user profiles.
 
  ## How It Works
- - **Quiz Generation:** When a user clicks a video he has two other options than simply watching the video--He can generate a concise summary of the video by clicking the **summarize** button or generate a quiz based on the video's content by clicking the **generate quiz** button.
+ - **Quiz Generation:** When a user clicks a video he has two other options (new features added) than simply watching the video--He can generate a concise summary of the video by clicking the **summarize** button or generate a quiz based on the video's content by clicking the **generate quiz** button.
  - The quiz is generated as follows--The youtube transcript is retrieved and then sent to chatgpt via api call along with a prompt to generate 10 quiz questions. The questions are then transformed to json format and is integrated at the frontend.
 ## Getting Started
 
