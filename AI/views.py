@@ -3,6 +3,7 @@ from django.shortcuts import render
 from apiclient.discovery import build
 from django.http import JsonResponse
 import json
+import os
 import re
 from youtube_transcript_api import YouTubeTranscriptApi
 import openai
@@ -32,9 +33,10 @@ class RateLimiter:
             time.sleep(sleep_time)
         print("your good to go")
         self.last_request_time = time.time()
-openai.api_key = ""
-api_key=""
-youtube=build('youtube','v3',developerKey=api_key)
+openai.api_key = os.getenv("OPENAI_API_KEY", "")
+# Load the YouTube API key from the environment and only initialize the client when available
+api_key = os.getenv("YOUTUBE_API_KEY")
+youtube = build('youtube', 'v3', developerKey=api_key) if api_key else None
 def get_cached_transcript(video_id):
     cached_transcript = redis_connection.get(f'transcript:{video_id}')
     return cached_transcript
@@ -47,12 +49,14 @@ def home(request):
 
 @login_required(login_url='/signin/')
 def get_videos(request):
-    if request.method=='POST':
-        yt_query=request.POST['query']
-        req=youtube.search().list(q=yt_query,part='snippet',type='video',relevanceLanguage='en',topicId='/m/01k8wb',maxResults=50)
-        res=req.execute()
-        return render(request, 'AI/main.html', {'video_data': res,'q':yt_query})
-    return render(request,'AI/main.html')
+    if request.method == 'POST':
+        if youtube is None:
+            return JsonResponse({'error': 'YouTube API key not configured.'})
+        yt_query = request.POST['query']
+        req = youtube.search().list(q=yt_query, part='snippet', type='video', relevanceLanguage='en', topicId='/m/01k8wb', maxResults=50)
+        res = req.execute()
+        return render(request, 'AI/main.html', {'video_data': res, 'q': yt_query})
+    return render(request, 'AI/main.html')
 
 @login_required(login_url='/signin/')
 def summarize_view(request):
